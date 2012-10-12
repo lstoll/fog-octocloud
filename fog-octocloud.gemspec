@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
   s.summary = %q{Implementation of Octocloud API for Fog}
   # s.test_files = Dir.glob("test/**/*")
 
-  s.add_runtime_dependency "fog",               "~> 1.5"
+  s.add_runtime_dependency "fog",  "~> 1.5"
+  s.add_runtime_dependency "json", "~> 1.7"
 end

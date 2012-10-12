@@ -1,5 +1,7 @@
 require 'fog/octocloud'
 require 'fog/compute'
+require 'base64'
+require 'json'
 
 module Fog
   module Compute
@@ -15,9 +17,9 @@ module Fog
       # model       :image
       # collection  :images
 
-      # request_path 'fog/ninefold/requests/compute'
+      request_path 'fog/octocloud/requests/compute'
       # General list-only stuff
-      # request :list_accounts
+      request :create_vm
       # request :list_events
 
       class Mock
@@ -42,9 +44,20 @@ module Fog
 
         def request(options)
 
+          login = Base64.urlsafe_encode64(@octocloud_api_key + ":")
+
+          headers = options[:headers] || {}
+          headers = {'Authorization' => "Basic #{login}"}.merge(headers)
+
+          if options[:body].kind_of? Hash
+            options[:body] = options[:body].to_json
+            headers = {'Content-Type' => 'application/json'}.merge(headers)
+          end
+
           options = {
             :expects => 200,
-            :query => ""
+            :query => "",
+            :headers => headers,
           }.merge(options)
 
           response = @connection.request(options)
