@@ -1,0 +1,3 @@
+.bundle
+# We're a gem, don't lock
+Gemfile.lock
