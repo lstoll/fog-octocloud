@@ -20,6 +20,9 @@ module Fog
       request_path 'fog/octocloud/requests/compute'
       # General list-only stuff
       request :create_vm
+      request :list_vms
+      request :lookup_vm
+      request :delete_vm
       # request :list_events
 
       class Mock
