@@ -2,7 +2,7 @@ require "helper"
 
 # TODO - Global vars are so bad. Do this better.
 
-describe "Requests" do
+describe "VMRequests" do
   describe "CreateRequest" do
     it "should raise without valid options" do
       expect { get_compute.create_vm({}) }.to raise_error
