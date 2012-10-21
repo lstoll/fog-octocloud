@@ -18,12 +18,17 @@ module Fog
       # collection  :images
 
       request_path 'fog/octocloud/requests/compute'
-      # General list-only stuff
+
       request :create_vm
       request :list_vms
       request :lookup_vm
       request :delete_vm
-      # request :list_events
+      request :create_template
+      request :list_templates
+      request :get_template
+      request :update_template
+      request :delete_template
+
 
       class Mock
 
