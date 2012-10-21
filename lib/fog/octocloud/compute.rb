@@ -10,13 +10,12 @@ module Fog
       requires :octocloud_api_key, :octocloud_url
 
       model_path 'fog/octocloud/models/compute'
-      # model       :server
-      # collection  :servers
+      model       :server
+      collection  :servers
       model       :template
       collection  :templates
 
       request_path 'fog/octocloud/requests/compute'
-
       request :create_vm
       request :list_vms
       request :lookup_vm

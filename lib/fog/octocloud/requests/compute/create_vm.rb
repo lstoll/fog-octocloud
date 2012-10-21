@@ -4,9 +4,12 @@ module Fog
       class Real
 
         def create_vm(opts = {})
-          unless opts.include?('type') && opts.include?('template') && opts.include?('memory')
-            raise ArgumentError.new("type, template and memory are required options to create a VM")
+          %w{type template memory}.each do |opt|
+            unless opts.include?(opt) || opts.include?(opt.to_sym)
+              raise ArgumentError.new("type, template and memory are required options to create a VM")
+            end
           end
+
           request(:method => :post, :expects => [200], :body => opts, :path => "/api/instances" )
         end
 
