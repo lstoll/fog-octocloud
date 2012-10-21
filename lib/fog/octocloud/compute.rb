@@ -9,13 +9,11 @@ module Fog
 
       requires :octocloud_api_key, :octocloud_url
 
-      # model_path 'fog/ninefold/models/compute'
+      model_path 'fog/octocloud/models/compute'
       # model       :server
       # collection  :servers
-      # model       :flavor
-      # collection  :flavors
-      # model       :image
-      # collection  :images
+      model       :template
+      collection  :templates
 
       request_path 'fog/octocloud/requests/compute'
 
