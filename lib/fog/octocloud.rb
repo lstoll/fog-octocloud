@@ -14,7 +14,7 @@ end
 module Fog
   module Compute
     class << self
-      alias_method :super_new, :new
+      alias_method :pre_octocloud_new, :new
 
       def new(attributes)
         dup_attr = attributes.dup # prevent delete from having side effects
@@ -23,7 +23,7 @@ module Fog
           require 'fog/octocloud/compute'
           Fog::Compute::Octocloud.new(dup_attr)
         else
-          super_new(attributes)
+          pre_octocloud_new(attributes)
         end
       end
     end
