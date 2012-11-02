@@ -35,7 +35,7 @@ describe "VMRequests" do
   describe "DeleteRequest" do
     it "should successfully remove the machine" do
       get_compute.servers.get($new_id).destroy
-      res = get_compute.list_vms
+      res = get_compute.servers
       res.any? {|v| v.identity.to_s == $new_id.to_s}.should_not eql(true)
     end
   end
