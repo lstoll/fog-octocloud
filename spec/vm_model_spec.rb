@@ -5,7 +5,7 @@ require "helper"
 describe "VMRequests" do
   describe "CreateRequest" do
     it "returns the new VM" do
-      s = get_compute.servers.create({:type => "esx", :template => "precise64", :memory => 512})
+      s = get_compute.servers.create({:type => "esx", :cube => "precise64", :memory => 512})
       $new_id = s.identity
       s.should_not eql(nil)
     end

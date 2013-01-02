@@ -12,7 +12,7 @@ module Fog
         attribute :name
         attribute :message
         attribute :expiry
-        attribute :template
+        attribute :cube
         attribute :mac
         attribute :type, :aliases => :hypervisor_type
         attribute :hypervisor_host
@@ -29,7 +29,7 @@ module Fog
         end
 
         def save
-          requires :memory, :type, :template
+          requires :memory, :type, :cube
 
           data = connection.create_vm(attributes)
 
