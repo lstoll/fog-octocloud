@@ -11,10 +11,10 @@ irb(main)> require 'fog-octocloud'
 => true
 irb(main):002:0> oc = Fog::Compute.new(:provider => "Octocloud", :octocloud_url => 'http://localhost:5000', :octocloud_api_key => '21f0f666-0881-4038-a19e-a37accdcd74d')
 => #<Fog::Compute::Octocloud::Real:70272936306420>
-irb(main)> oc.templates.all
-=>   <Fog::Compute::Octocloud::Templates
+irb(main)> oc.cubes.all
+=>   <Fog::Compute::Octocloud::Cubes
     [
-      <Fog::Compute::Octocloud::Template
+      <Fog::Compute::Octocloud::Cube
         id=1,
         name="precise64",
         image_urls={"esx"=>"http://localhost:8000/precise64.vmdk"},
@@ -26,14 +26,14 @@ irb(main)> oc.servers.all
 =>   <Fog::Compute::Octocloud::Servers
     []
   >
-irb(main)> svr = oc.servers.create({:type => "esx", :template => "precise64", :memory => 512})
+irb(main)> svr = oc.servers.create({:type => "esx", :cube => "precise64", :memory => 512})
 =>   <Fog::Compute::Octocloud::Server
     id=16,
     memory=512,
     name=nil,
     message=nil,
     expiry=nil,
-    template="precise64",
+    cube="precise64",
     mac=nil,
     type="esx",
     hypervisor_host=nil,
@@ -49,7 +49,7 @@ irb(main)> svr.reload
     name=nil,
     message=nil,
     expiry="2012-10-22T13:40:10+0200",
-    template="precise64",
+    cube="precise64",
     mac="00:0c:29:63:38:1a",
     type="esx",
     hypervisor_host="192.168.237.168",
@@ -67,7 +67,7 @@ irb(main)> svr.reload
     name=nil,
     message=nil,
     expiry="2012-10-22T13:40:10+0200",
-    template="precise64",
+    cube="precise64",
     mac="00:0c:29:63:38:1a",
     type="esx",
     hypervisor_host="192.168.237.168",
@@ -82,31 +82,31 @@ irb(main)> oc.servers.all
 =>   <Fog::Compute::Octocloud::Servers
     []
   >
-irb(main)> oc.templates.create({:name => "test-template", :image_urls => {:esx => "http://test/test.vmdk"}})
-=>   <Fog::Compute::Octocloud::Template
+irb(main)> oc.cubes.create({:name => "test-cube", :url => "http://test/test.vmdk"})
+=>   <Fog::Compute::Octocloud::Cube
     id=25,
-    name="test-template",
+    name="test-cube",
     image_urls={:esx=>"http://test/test.vmdk"},
     revision=nil
   >
-irb(main)> oc.templates.all
-=>   <Fog::Compute::Octocloud::Templates
+irb(main)> oc.cubes.all
+=>   <Fog::Compute::Octocloud::Cubes
     [
-      <Fog::Compute::Octocloud::Template
+      <Fog::Compute::Octocloud::Cube
         id=1,
         name="precise64",
         image_urls={"esx"=>"http://localhost:8000/precise64.vmdk"},
         revision=1
       >,
-      <Fog::Compute::Octocloud::Template
+      <Fog::Compute::Octocloud::Cube
         id=25,
-        name="test-template",
+        name="test-cube",
         image_urls={"esx"=>"http://test/test.vmdk"},
         revision=1
       >
     ]
   >
-irb(main):025:0> oc.templates.last.destroy
+irb(main):025:0> oc.cubes.last.destroy
 => true
 ```
 
