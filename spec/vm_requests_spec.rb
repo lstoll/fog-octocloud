@@ -9,7 +9,7 @@ describe "VMRequests" do
     end
 
     it "should return the new VM's ID when creating" do
-      res = get_compute.create_vm({'type' => "esx", 'template' => "precise64", 'memory' => 512})
+      res = get_compute.create_vm({'type' => "esx", 'cube' => "precise64", 'memory' => 512})
       $new_id = res["id"]
       $new_id.should_not eql(nil)
     end
