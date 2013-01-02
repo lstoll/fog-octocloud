@@ -4,22 +4,22 @@ module Fog
   module Compute
     class Octocloud
 
-      class Template < Fog::Model
+      class Cube < Fog::Model
 
         identity :id
 
         attribute :name
-        attribute :image_urls, :aliases => 'image-urls'
+        attribute :url
         attribute :revision
 
         def save
-          requires :name, :image_urls
+          requires :name, :url
 
-          attrs = {'name' => name, 'image-urls' => image_urls}
+          attrs = {'name' => name, 'url' => url}
           if identity
-            data = connection.update_template(identity, attrs)
+            data = connection.update_cube(identity, attrs)
           else
-            data = connection.create_template(attrs)
+            data = connection.create_cube(attrs)
           end
           merge_attributes(data)
           true
@@ -27,7 +27,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_template(id)
+          connection.delete_cube(id)
           true
         end
 

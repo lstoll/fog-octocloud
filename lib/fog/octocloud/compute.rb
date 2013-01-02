@@ -12,8 +12,8 @@ module Fog
       model_path 'fog/octocloud/models/compute'
       model       :server
       collection  :servers
-      model       :template
-      collection  :templates
+      model       :cube
+      collection  :cubes
 
       request_path 'fog/octocloud/requests/compute'
       request :create_vm

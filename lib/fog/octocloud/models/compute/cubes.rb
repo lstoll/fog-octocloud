@@ -1,20 +1,20 @@
 require 'fog/core/collection'
-require 'fog/octocloud/models/compute/template'
+require 'fog/octocloud/models/compute/cube'
 
 module Fog
   module Compute
     class Octocloud
 
-      class Templates < Fog::Collection
+      class Cubes < Fog::Collection
 
-        model Fog::Compute::Octocloud::Template
+        model Fog::Compute::Octocloud::Cube
 
         def all()
-          load(connection.list_templates())
+          load(connection.list_cubes())
         end
 
         def get(identifier)
-          data = connection.get_template(identifier)
+          data = connection.get_cube(identifier)
           if data.empty?
             nil
           else
