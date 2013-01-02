@@ -20,11 +20,11 @@ module Fog
       request :list_vms
       request :lookup_vm
       request :delete_vm
-      request :create_template
-      request :list_templates
-      request :get_template
-      request :update_template
-      request :delete_template
+      request :create_cube
+      request :list_cubes
+      request :get_cube
+      request :update_cube
+      request :delete_cube
 
 
       class Mock
