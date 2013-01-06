@@ -29,6 +29,7 @@ module Fog
       request :list_defined_vms
       request :create_vm
       request :delete_vm_files
+      request :delete_box
 
       class Mock
 
