@@ -20,7 +20,7 @@ module Fog
       request :vm_running
       request :start_vm
       request :stop_vm
-      request :delete_vm
+      request :delete_fusion_vm
       request :vm_ip
       request :share_folder
       # filesystem interaction
