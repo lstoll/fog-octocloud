@@ -8,8 +8,11 @@ module Fog
 
         identity :name
 
+        attribute :source
+
+
         def save
-          raise "Can't save a Tenderloin cube"
+          connection.import_box(name, source)
         end
 
         def destroy

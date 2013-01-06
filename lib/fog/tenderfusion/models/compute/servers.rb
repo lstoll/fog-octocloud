@@ -10,18 +10,16 @@ module Fog
         model Fog::Compute::Tenderfusion::Server
 
         def all()
-          vms = connection.list_vms().collect do |vm|
-            connection.get_vm(vm)
-          end
-          load(vms)
+          load(connection.list_defined_vms().map {|i| {:name => i}})
         end
 
-        def get(identifier)
-          data = connection.get_vm(identifier)
-          if data.empty?
-            nil
+        def get(name)
+          if connection.list_defined_vms().include?(name)
+            new({ :name => name,
+                  :running => connection.vm_running(name),
+                  :ip => connection.vm_ip(name)})
           else
-            new(data)
+            nil
           end
         end
 

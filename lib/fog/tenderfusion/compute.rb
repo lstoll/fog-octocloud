@@ -13,8 +13,8 @@ module Fog
       recognizes :loin_dir
 
       model_path 'fog/tenderfusion/models/compute'
-      # model       :server
-      # collection  :servers
+      model       :server
+      collection  :servers
       model       :cube
       collection  :cubes
 

@@ -21,10 +21,6 @@ module Fog
           end
         end
 
-        def import(name, source)
-          connection.import_box(name, source)
-        end
-
       end
 
     end

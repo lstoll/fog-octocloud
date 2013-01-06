@@ -6,21 +6,17 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        identity :id
+        identity :name
 
-        attribute :running, :aliases => 'vm.running'
-        attribute :ip, :aliases => 'vm.ip'
-        attribute :private_key, :aliases => 'config.ssh.key'
-        attribute :port, :aliases => 'config.ssh.port'
-        attribute :username, :aliases => 'config.ssh.username'
-        attribute :password, :aliases => 'config.ssh.password'
+        attribute :running
+        attribute :ip
+        attribute :cube
 
-
-        def ssh(commands, options={}, &blk)
-          require 'net/ssh'
-          options[:password] = password
-          super(commands, options)
-        end
+        # def ssh(commands, options={}, &blk)
+        #   require 'net/ssh'
+        #   options[:password] = password
+        #   super(commands, options)
+        # end
 
         def ready?
           running && ip
@@ -34,29 +30,43 @@ module Fog
           ip
         end
 
-        def initialize(attributes={})
-          super
-        end
+        # def initialize(attributes={})
+          # super
+        # end
 
         def save
-          raise "Save not implemented"
+          requires :name, :cube
+
+          cube_str = cube.kind_of?(Cube) ? cube.name : cube
+
+          connection.create_vm(cube_str, name)
+
+          connection.start_vm(name)
+
+          merge_attributes({:running => connection.vm_running(name)})
         end
 
         def destroy
-          requires :id
-          connection.destroy_vm(id)
+          requires :name
+          stop
+          connection.delete_fusion_vm(name)
+          begin
+            connection.delete_vm_files(name)
+          rescue Errno::ENOENT => e
+            #ignore, vmware has already deleted it
+          end
           true
         end
 
         def start
-          requires :id
-          connection.start_vm(id)
+          requires :name
+          connection.start_vm(name)
           true
         end
 
         def stop
-          requires :id
-          connection.stop_vm(id)
+          requires :name
+          connection.stop_vm(name)
           true
         end
 
