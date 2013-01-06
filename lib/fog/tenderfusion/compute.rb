@@ -30,6 +30,7 @@ module Fog
       request :create_vm
       request :delete_vm_files
       request :delete_box
+      request :import_box
 
       class Mock
 
