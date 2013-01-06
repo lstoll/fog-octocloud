@@ -3,6 +3,7 @@ require 'fog/compute'
 require 'base64'
 require 'fog/tenderfusion/vmxfile'
 require 'pathname'
+require 'fileutils'
 
 module Fog
   module Compute
@@ -25,8 +26,8 @@ module Fog
       request :share_folder
       # filesystem interaction
       request :list_boxes
-      request :list_defined_vm
-
+      request :list_defined_vms
+      request :create_vm
 
       class Mock
 
@@ -41,14 +42,15 @@ module Fog
       class Real
 
         def initialize(options)
-          @loin_dir     = options[:loin_dir] || File.expand_path("~/.tenderloin")
+          @loin_dir     = options[:loin_dir] || "~/.tenderloin"
         end
 
         def box_dir
+          Pathname.new(File.join(@loin_dir, 'boxes')).expand_path
         end
 
         def vm_dir
-          Pathname.new(File.join(@loin_dir, 'vms'))
+          Pathname.new(File.join(@loin_dir, 'vms')).expand_path
         end
 
         def vmrun(cmd, args={})
