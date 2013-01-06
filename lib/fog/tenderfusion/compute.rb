@@ -17,6 +17,7 @@ module Fog
       request_path 'fog/tenderfusion/requests/compute'
       # request :list_vms
       request :vm_running
+      request :start_vm
 
 
       class Mock

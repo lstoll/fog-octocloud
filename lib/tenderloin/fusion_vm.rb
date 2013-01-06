@@ -1,6 +1,6 @@
 module Tenderloin
   class FusionVM
-    VMRUN = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
+
 
     def initialize(vmx)
       @vmx = vmx
@@ -9,16 +9,6 @@ module Tenderloin
     def start_fusion
       # Ensure fusion is running.
       `if [[ -z $(pgrep 'VMware Fusion') ]]; then open /Applications/VMware\\ Fusion.app ; sleep 5 ; fi`
-    end
-
-    def running?()
-      `#{VMRUN} list | grep "#{@vmx}"`
-      $? == 0 ? true : false
-    end
-
-    def start(opts = {})
-      gui_opt = opts[:headless] == true ? "nogui" : "gui"
-      run('start', gui_opt)
     end
 
     def stop(opts = {})
