@@ -2,6 +2,7 @@ require 'fog/tenderfusion'
 require 'fog/compute'
 require 'base64'
 require 'json'
+require 'fog/tenderfusion/vmxfile'
 
 module Fog
   module Compute
