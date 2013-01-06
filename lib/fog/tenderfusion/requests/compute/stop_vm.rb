@@ -5,7 +5,7 @@ module Fog
 
         def stop_vm(vmx, opts={})
           hard_opt = opts[:force] == true ? "hard" : "soft"
-          vmrun 'stop', :opts => hard_opt
+          vmrun 'stop', :opts => hard_opt, :vmx => vmx
         end
 
       end

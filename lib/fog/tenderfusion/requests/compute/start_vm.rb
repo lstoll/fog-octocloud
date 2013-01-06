@@ -5,7 +5,7 @@ module Fog
 
         def start_vm(vmx, headless=false)
           gui_opt = opts[:headless] == true ? "nogui" : "gui"
-          vmrun('start', :opts => gui_opt)
+          vmrun('start', :opts => gui_opt, :vmx => vmx)
         end
 
       end
