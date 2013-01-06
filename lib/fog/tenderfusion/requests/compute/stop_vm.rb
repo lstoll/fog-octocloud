@@ -3,8 +3,9 @@ module Fog
     class Tenderfusion
       class Real
 
-        def stop_vm(id)
-          request(['halt', '-f', id])
+        def stop_vm(vmx, opts={})
+          hard_opt = opts[:force] == true ? "hard" : "soft"
+          vmrun 'stop', hard_opt
         end
 
       end

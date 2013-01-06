@@ -11,11 +11,6 @@ module Tenderloin
       `if [[ -z $(pgrep 'VMware Fusion') ]]; then open /Applications/VMware\\ Fusion.app ; sleep 5 ; fi`
     end
 
-    def stop(opts = {})
-      hard_opt = opts[:force] == true ? "hard" : "soft"
-      run 'stop', hard_opt
-    end
-
     def delete()
       run 'deleteVM'
     end
