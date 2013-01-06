@@ -1,8 +1,8 @@
 require 'fog/tenderfusion'
 require 'fog/compute'
 require 'base64'
-require 'json'
 require 'fog/tenderfusion/vmxfile'
+require 'pathname'
 
 module Fog
   module Compute
@@ -24,6 +24,7 @@ module Fog
       request :vm_ip
       request :share_folder
       # filesystem interaction
+      request :list_boxes
 
 
       class Mock
