@@ -25,6 +25,7 @@ module Fog
       request :share_folder
       # filesystem interaction
       request :list_boxes
+      request :list_defined_vm
 
 
       class Mock
