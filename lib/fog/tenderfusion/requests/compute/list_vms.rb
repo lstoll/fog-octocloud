@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Tenderloin
+    class Tenderfusion
       class Real
 
         def list_vms()

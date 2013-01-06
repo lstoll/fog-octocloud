@@ -2,7 +2,7 @@ require 'fog/compute/models/server'
 
 module Fog
   module Compute
-    class Tenderloin
+    class Tenderfusion
 
       class Server < Fog::Compute::Server
 

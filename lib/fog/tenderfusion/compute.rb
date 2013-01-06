@@ -1,19 +1,19 @@
-require 'fog/tenderloin'
+require 'fog/tenderfusion'
 require 'fog/compute'
 require 'base64'
 require 'json'
 
 module Fog
   module Compute
-    class Tenderloin < Fog::Service
+    class Tenderfusion < Fog::Service
 
-      recognizes :loin_cmd, :loinfile_glob
+      recognizes :loin_dir
 
-      model_path 'fog/tenderloin/models/compute'
+      model_path 'fog/tenderfusion/models/compute'
       model       :server
       collection  :servers
 
-      request_path 'fog/tenderloin/requests/compute'
+      request_path 'fog/tenderfusion/requests/compute'
       request :list_vms
       request :get_vm
       request :start_vm
@@ -33,8 +33,7 @@ module Fog
       class Real
 
         def initialize(options)
-          @vm_glob     = options[:loinfile_glob] || "**/*.loin"
-          @loin_cmd    = options[:loin_cmd]      || "loin"
+          @loin_dir     = options[:loin_dir] || File.expand_path("~/.tenderloin")
         end
 
         def request(params, json_resp=false)

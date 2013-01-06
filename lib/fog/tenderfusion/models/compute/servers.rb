@@ -1,13 +1,13 @@
 require 'fog/core/collection'
-require 'fog/tenderloin/models/compute/server'
+require 'fog/tenderfusion/models/compute/server'
 
 module Fog
   module Compute
-    class Tenderloin
+    class Tenderfusion
 
       class Servers < Fog::Collection
 
-        model Fog::Compute::Tenderloin::Server
+        model Fog::Compute::Tenderfusion::Server
 
         def all()
           vms = connection.list_vms().collect do |vm|

@@ -3,7 +3,7 @@ require "helper"
 # TODO - Global vars are so bad. Do this better.
 
 describe "VMRequests" do
-  let (:vm_path) { "spec/sample-loin/vm1.loin" }
+  it "creates a VM"
 
   it "lists available vms" do
     res = get_compute.list_vms

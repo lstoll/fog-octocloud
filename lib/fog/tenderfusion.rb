@@ -1,11 +1,11 @@
 require 'fog/core'
 
 module Fog
-  module Tenderloin
+  module Tenderfusion
 
     extend Fog::Provider
 
-    service(:compute, 'tenderloin/compute', 'Compute')
+    service(:compute, 'tenderfusion/compute', 'Compute')
 
   end
 end
@@ -14,16 +14,16 @@ end
 module Fog
   module Compute
     class << self
-      alias_method :pre_tenderloin_new, :new
+      alias_method :pre_tenderfusion_new, :new
 
       def new(attributes)
         dup_attr = attributes.dup # prevent delete from having side effects
         provider = dup_attr.delete(:provider).to_s.downcase.to_sym
-        if provider == :tenderloin
-          require 'fog/tenderloin/compute'
-          Fog::Compute::Tenderloin.new(dup_attr)
+        if provider == :tenderfusion
+          require 'fog/tenderfusion/compute'
+          Fog::Compute::Tenderfusion.new(dup_attr)
         else
-          pre_tenderloin_new(attributes)
+          pre_tenderfusion_new(attributes)
         end
       end
     end
