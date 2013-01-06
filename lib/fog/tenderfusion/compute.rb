@@ -15,6 +15,8 @@ module Fog
       model_path 'fog/tenderfusion/models/compute'
       # model       :server
       # collection  :servers
+      model       :cube
+      collection  :cubes
 
       request_path 'fog/tenderfusion/requests/compute'
       # fusion interaction
