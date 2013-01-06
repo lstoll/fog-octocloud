@@ -3,13 +3,14 @@ module Fog
     class Tenderfusion
       class Real
 
-        def share_folder(vmx, name, hostpath)
+        def share_folder(vmname, name, hostpath)
+          vmx = vmx_for_vm(vmname)
           # Try and clean up first, to handle path changes.
           begin
             vmrun 'removeSharedFolder', :opts => "#{name}", :vmx => vmx
           rescue
           end
-          run 'addSharedFolder', :opts => "#{name} #{hostpath}", :vmx => vmx
+          vmrun 'addSharedFolder', :opts => "#{name} #{hostpath}", :vmx => vmx
         end
 
         private

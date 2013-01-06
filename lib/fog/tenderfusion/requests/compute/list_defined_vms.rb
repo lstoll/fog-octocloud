@@ -4,9 +4,9 @@ module Fog
       class Real
 
         def list_defined_vms()
-          # Boxes are just dirs in the right path
-          vms = vm_dir.chidren.select {|p| p.directory?}
-          vms.map {|vm| vm.split[1]}
+          # VM names are the dirname
+          vms = vm_dir.children.select {|p| p.directory?}
+          vms.map {|vm| vm.split[1].to_s}
         end
 
       end

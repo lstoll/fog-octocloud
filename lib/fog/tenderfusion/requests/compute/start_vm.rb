@@ -3,7 +3,8 @@ module Fog
     class Tenderfusion
       class Real
 
-        def start_vm(vmx, headless=false)
+        def start_vm(name, opts={})
+          vmx = vmx_for_vm(name)
           gui_opt = opts[:headless] == true ? "nogui" : "gui"
           vmrun('start', :opts => gui_opt, :vmx => vmx)
         end

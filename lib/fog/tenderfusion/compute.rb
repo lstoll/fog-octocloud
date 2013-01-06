@@ -1,7 +1,7 @@
 require 'fog/tenderfusion'
 require 'fog/compute'
 require 'base64'
-require 'fog/tenderfusion/vmxfile'
+require 'fog/tenderfusion/vmx_file'
 require 'pathname'
 require 'fileutils'
 
@@ -56,7 +56,12 @@ module Fog
           Pathname.new(File.join(@loin_dir, 'vms')).expand_path
         end
 
+        def vmx_for_vm(name)
+          vm_dir.join(name, name + ".vmx")
+        end
+
         def vmrun(cmd, args={})
+          args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
           runcmd = "#{VMRUN} #{cmd} #{args[:vmx]} #{args[:opts]}"
           retrycount = 0
           while true

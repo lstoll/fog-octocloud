@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'archive/tar/minitar'
 
 module Fog
   module Compute
