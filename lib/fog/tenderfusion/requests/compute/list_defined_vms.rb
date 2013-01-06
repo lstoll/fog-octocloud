@@ -5,8 +5,8 @@ module Fog
 
         def list_defined_vms()
           # Boxes are just dirs in the right path
-          boxdir = Pathname.new(File.join(@loin_dir, 'vmx'))
-          boxdir.chidren.select {|p| p.directory?}
+          vms = vm_dir.chidren.select {|p| p.directory?}
+          vms.map {|vm| vm.split[1]}
         end
 
       end

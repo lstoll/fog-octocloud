@@ -5,8 +5,8 @@ module Fog
 
         def list_boxes()
           # Boxes are just dirs in the right path
-          boxdir = Pathname.new(File.join(@loin_dir, 'boxes'))
-          boxdir.chidren.select {|p| p.directory?}
+          boxes = box_dir.chidren.select {|p| p.directory?}
+          boxes.map {|b| b.split[1]}
         end
 
       end

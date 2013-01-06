@@ -44,6 +44,13 @@ module Fog
           @loin_dir     = options[:loin_dir] || File.expand_path("~/.tenderloin")
         end
 
+        def box_dir
+        end
+
+        def vm_dir
+          Pathname.new(File.join(@loin_dir, 'vms'))
+        end
+
         def vmrun(cmd, args={})
           runcmd = "#{VMRUN} #{cmd} #{args[:vmx]} #{args[:opts]}"
           retrycount = 0
