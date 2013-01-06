@@ -3,8 +3,9 @@ module Fog
     class Tenderfusion
       class Real
 
-        def list_vms()
-          Dir[@vm_glob]
+        def vm_running(vmx)
+          `#{VMRUN} list | grep "#{vmx}"`
+          $? == 0 ? true : false
         end
 
       end
