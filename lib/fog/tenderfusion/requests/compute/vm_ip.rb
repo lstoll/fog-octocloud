@@ -17,7 +17,7 @@ module Fog
         private
 
         def get_guest_var(vmx, var)
-          vmrun 'readVariable', 'guestVar ' + var, :vmx => vmx
+          vmrun 'readVariable', :opts => 'guestVar ' + var, :vmx => vmx
         end
 
         def dhcp_leases
