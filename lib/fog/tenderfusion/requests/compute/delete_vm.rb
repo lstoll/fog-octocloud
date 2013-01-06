@@ -3,8 +3,8 @@ module Fog
     class Tenderfusion
       class Real
 
-        def destroy_vm(id)
-          request(['destroy', '-f', id])
+        def delete_vm(vmx)
+          vmrun 'deleteVM', :vmx => vmx
         end
 
       end

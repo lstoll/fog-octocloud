@@ -11,10 +11,6 @@ module Tenderloin
       `if [[ -z $(pgrep 'VMware Fusion') ]]; then open /Applications/VMware\\ Fusion.app ; sleep 5 ; fi`
     end
 
-    def delete()
-      run 'deleteVM'
-    end
-
     def get_guest_var(var)
       run 'readVariable', 'guestVar ' + var
     end

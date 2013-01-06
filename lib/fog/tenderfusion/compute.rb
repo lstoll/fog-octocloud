@@ -19,6 +19,7 @@ module Fog
       request :vm_running
       request :start_vm
       request :stop_vm
+      request :delete_vm
 
 
       class Mock
