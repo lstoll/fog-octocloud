@@ -6,24 +6,6 @@ module Tenderloin
       @vmx = vmx
     end
 
-    def run(cmd, opts='')
-      runcmd = "#{VMRUN} #{cmd} #{@vmx} #{opts}"
-      retrycount = 0
-      while true
-        res = `#{runcmd}`
-        if $? == 0
-          return res
-        elsif res =~ /The virtual machine is not powered on/
-          return
-        else
-          if res =~ /VMware Tools are not running/
-            sleep 1; next unless retrycount > 10
-          end
-          raise "Error running vmrun command:\n#{runcmd}\nResponse: " + res
-        end
-      end
-    end
-
     def start_fusion
       # Ensure fusion is running.
       `if [[ -z $(pgrep 'VMware Fusion') ]]; then open /Applications/VMware\\ Fusion.app ; sleep 5 ; fi`

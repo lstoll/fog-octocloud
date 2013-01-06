@@ -10,15 +10,12 @@ module Fog
       recognizes :loin_dir
 
       model_path 'fog/tenderfusion/models/compute'
-      model       :server
-      collection  :servers
+      # model       :server
+      # collection  :servers
 
       request_path 'fog/tenderfusion/requests/compute'
-      request :list_vms
-      request :get_vm
-      request :start_vm
-      request :stop_vm
-      request :destroy_vm
+      # request :list_vms
+
 
       class Mock
 
@@ -36,35 +33,40 @@ module Fog
           @loin_dir     = options[:loin_dir] || File.expand_path("~/.tenderloin")
         end
 
-        def request(params, json_resp=false)
-          params = params.join(" ") if params.kind_of? Array
-          ret = `#{@loin_cmd} #{params}`
-
-          raise "Error running command:\n#{ret}" if $? != 0
-
-          if json_resp
-            to_dotted_hash(Fog::JSON.decode(ret))
-          else
-            ret
+        def vmrun(cmd, args={})
+          runcmd = "#{VMRUN} #{cmd} #{args[:vmx]} #{args[:opts]}"
+          retrycount = 0
+          while true
+            res = `#{runcmd}`
+            if $? == 0
+              return res
+            elsif res =~ /The virtual machine is not powered on/
+              return
+            else
+              if res =~ /VMware Tools are not running/
+                sleep 1; next unless retrycount > 10
+              end
+              raise "Error running vmrun command:\n#{runcmd}\nResponse: " + res
+            end
           end
         end
 
-        def to_dotted_hash(source, target = {}, namespace = nil)
-          prefix = "#{namespace}." if namespace
-          case source
-          when Hash
-            source.each do |key, value|
-              to_dotted_hash(value, target, "#{prefix}#{key}")
-            end
-          when Array
-            source.each_with_index do |value, index|
-              to_dotted_hash(value, target, "#{prefix}#{index}")
-            end
-          else
-            target[namespace] = source
-          end
-          target
-        end
+        # def to_dotted_hash(source, target = {}, namespace = nil)
+        #   prefix = "#{namespace}." if namespace
+        #   case source
+        #   when Hash
+        #     source.each do |key, value|
+        #       to_dotted_hash(value, target, "#{prefix}#{key}")
+        #     end
+        #   when Array
+        #     source.each_with_index do |value, index|
+        #       to_dotted_hash(value, target, "#{prefix}#{index}")
+        #     end
+        #   else
+        #     target[namespace] = source
+        #   end
+        #   target
+        # end
 
 
       end
