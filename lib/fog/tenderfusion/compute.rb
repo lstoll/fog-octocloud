@@ -6,6 +6,7 @@ require 'json'
 module Fog
   module Compute
     class Tenderfusion < Fog::Service
+      VMRUN = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
 
       recognizes :loin_dir
 
