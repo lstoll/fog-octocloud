@@ -12,20 +12,6 @@ module Tenderloin
     end
 
 
-    def enable_shared_folders
-      run 'enableSharedFolders'
-    end
-
-    def share_folder(name, hostpath)
-      # Try and clean up first, to handle path changes.
-      begin
-        run 'removeSharedFolder', "#{name}"
-      rescue
-      end
-      run 'addSharedFolder', "#{name} #{hostpath}"
-    end
-
-
     def to_hash
       {:ip => ip, :running => running?}
     end
