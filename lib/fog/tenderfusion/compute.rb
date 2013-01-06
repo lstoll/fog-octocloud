@@ -16,11 +16,14 @@ module Fog
       # collection  :servers
 
       request_path 'fog/tenderfusion/requests/compute'
-      # request :list_vms
+      # fusion interaction
       request :vm_running
       request :start_vm
       request :stop_vm
       request :delete_vm
+      request :vm_ip
+      request :share_folder
+      # filesystem interaction
 
 
       class Mock
