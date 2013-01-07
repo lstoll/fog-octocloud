@@ -5,20 +5,7 @@ module Tenderloin
 
     include Tenderloin::Util
 
-    option "--file", "FILE", "The environment description file. Defaults to Tenderfile", :default => 'Tenderfile'
-
-    subcommand "init", "Initialize the repository" do
-      option "--flavour2", "FLAVOUR2", "ice-cream flavour2"
-      def execute
-        # ...
-        puts "flav #{flavour}"
-        puts "flav2 #{flavour2}"
-
-        # p Tenderloin.config
-        # p Tenderloin::Env.compute
-      end
-
-    end
+    option ["--file", "-f"], "FILE", "The environment description file. Defaults to Tenderfile", :default => 'Tenderfile'
 
     private
 
@@ -40,3 +27,4 @@ require 'tenderloin/commands/up'
 require 'tenderloin/commands/destroy'
 require 'tenderloin/commands/halt'
 require 'tenderloin/commands/ssh'
+require 'tenderloin/commands/provision'
