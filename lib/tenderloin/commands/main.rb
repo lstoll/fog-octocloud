@@ -38,3 +38,4 @@ end
 
 require 'tenderloin/commands/up'
 require 'tenderloin/commands/destroy'
+require 'tenderloin/commands/halt'

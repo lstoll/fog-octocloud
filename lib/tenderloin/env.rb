@@ -15,7 +15,7 @@ module Tenderloin
       def dotfile_path
         loinsplit = File.split($ROOTFILE_NAME)
         loinsplit[-1] = "." + loinsplit[-1] + ".loinstate"
-        File.join(root_path, *loinsplit)
+        File.expand_path(File.join(root_path, *loinsplit))
       end
 
       def load!
@@ -55,6 +55,10 @@ module Tenderloin
         File.open(dotfile_path, 'w+') do |f|
           f.write(vm_id)
         end
+      end
+
+      def remove_persisted_vm_id()
+        FileUtils.rm(dotfile_path)
       end
 
       def load_root_path!(path=nil)

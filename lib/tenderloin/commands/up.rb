@@ -6,6 +6,7 @@ module Tenderloin
         if Env.persisted_vm && vm = Env.compute.servers.get(Env.persisted_vm)
           logger.info "VM already created. Starting VM if its not already running..."
           vm.start unless vm.running?
+          wait_on_vm(vm)
         elsif !Env.compute.cubes.get(config.vm.box)
           logger.error "No cube called #{config.vm.box} found."
         else
@@ -18,14 +19,21 @@ module Tenderloin
 
           # Actually create the vm.
           logger.info "Creating VM"
+          # TODO - options are slighty different for octocloud, need to pass memory here.
           svr = Env.compute.servers.create(:name => name, :cube => config.vm.box)
-          logger.info "Persisting the VM ID (#{name})..."
+          logger.info "Persisting the VM ID (#{svr.identity})..."
           Env.persist_vm(name)
-          logger.info "Waiting for VM to be ready"
-          svr.wait_for { print "."; ready? }
-          print "\n"
-          logger.info "VM Created and running on: #{svr.ip}"
+          wait_on_vm(svr)
         end
+      end
+
+      private
+
+      def wait_on_vm(svr)
+        logger.info "Waiting for VM to be ready"
+        svr.wait_for { print "."; ready? }
+        print "\n"
+        logger.info "VM Created and running on: #{svr.ip}"
       end
     end
   end
