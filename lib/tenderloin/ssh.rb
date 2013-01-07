@@ -1,3 +1,5 @@
+require 'net/ssh'
+
 module Tenderloin
   class SSH
     SCRIPT = File.join(File.dirname(__FILE__), '..', '..', 'script', 'tenderloin-ssh-expect.sh')
