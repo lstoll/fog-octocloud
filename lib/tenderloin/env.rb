@@ -98,6 +98,15 @@ error
           return
         end
       end
+
+      def compute
+        @@fog_compute ||= begin
+                            fog_conf = Tenderloin.config.fog
+                            require "fog-#{fog_conf.provider.to_s}"
+                            opts = fog_conf.options.merge({:provider => fog_conf.provider})
+                            Fog::Compute.new(opts)
+        end
+      end
     end
   end
 end

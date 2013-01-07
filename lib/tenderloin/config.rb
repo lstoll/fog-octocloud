@@ -127,6 +127,7 @@ module Tenderloin
     class Top < Base
       attr_reader :package
       attr_reader :ssh
+      attr_reader :fog
       attr_reader :vm
       attr_reader :tenderloin
       attr_reader :provisioning

@@ -2,7 +2,6 @@ Tenderloin::Config.run do |config|
   # default config goes here
   config.tenderloin.log_output = STDOUT
   config.tenderloin.dotfile_name = ".tenderloin"
-  config.tenderloin.home = "~/.tenderloin"
 
   config.fog.provider = "Tenderfusion"
   config.fog.options = {}
