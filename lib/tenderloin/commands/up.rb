@@ -34,6 +34,7 @@ module Tenderloin
         svr.wait_for { print "."; ready? }
         print "\n"
         logger.info "VM Created and running on: #{svr.ip}"
+        provision_vm(svr)
       end
     end
   end
