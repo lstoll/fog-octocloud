@@ -19,6 +19,7 @@ module Fog
         # end
 
         def ready?
+          reload
           running && ip
         end
 
