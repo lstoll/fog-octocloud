@@ -3,4 +3,4 @@
 require 'tenderloin'
 require 'tenderloin/commands/main'
 
-LoinCLI.run
+Tenderloin::CLI.run

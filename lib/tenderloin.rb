@@ -8,7 +8,6 @@ require 'tenderloin/util'
 # Load config
 require 'tenderloin/config'
 require 'tenderloin/env'
-Tenderloin::Env.load_config!
 
 # Load CLI
 require 'clamp'

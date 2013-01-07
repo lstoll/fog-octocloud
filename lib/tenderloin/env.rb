@@ -45,7 +45,7 @@ module Tenderloin
         return if !root_path || !File.file?(dotfile_path)
 
         File.open(dotfile_path) do |f|
-          @@persisted_vm = Tenderloin::VM.find(f.read)
+          @@persisted_vm = f.read.strip
         end
       rescue Errno::ENOENT
         @@persisted_vm = nil

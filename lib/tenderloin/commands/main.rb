@@ -1,27 +1,40 @@
 # This is the entry point that contains the global options.
 
-class LoinCLI < Clamp::Command
+module Tenderloin
+  class CLI < Clamp::Command
 
-  option "--flavour", "FLAVOUR", "ice-cream flavour"
+    include Tenderloin::Util
 
-  subcommand "init", "Initialize the repository" do
-    option "--flavour2", "FLAVOUR2", "ice-cream flavour2"
-    def execute
-      # ...
-      puts "flav #{flavour}"
-      puts "flav2 #{flavour2}"
+    option "--file", "FILE", "The environment description file. Defaults to Tenderfile", :default => 'Tenderfile'
+
+    subcommand "init", "Initialize the repository" do
+      option "--flavour2", "FLAVOUR2", "ice-cream flavour2"
+      def execute
+        # ...
+        puts "flav #{flavour}"
+        puts "flav2 #{flavour2}"
+
+        # p Tenderloin.config
+        # p Tenderloin::Env.compute
+      end
+
+    end
+
+    private
+
+    def load_env!
+      $ROOTFILE_NAME = file.dup.freeze
+      Env.load!
+    end
+
+    def config
+      Tenderloin.config
     end
 
   end
-
 end
 
+## Load the subcommands
 
-
-class LoinCLI < Clamp::Command
-  subcommand "no", "no what?" do
-    def execute
-      puts "hmmm #{flavour}"
-    end
-  end
-end
+require 'tenderloin/commands/up'
+require 'tenderloin/commands/destroy'
