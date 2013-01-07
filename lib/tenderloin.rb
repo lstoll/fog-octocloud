@@ -2,6 +2,13 @@ libdir = File.dirname(__FILE__)
 $:.unshift(libdir)
 PROJECT_ROOT = File.join(libdir, '..') unless defined?(PROJECT_ROOT)
 
+# Setup
+require 'tenderloin/util'
+
+# Load config
+require 'tenderloin/config'
+require 'tenderloin/env'
+
 # Load CLI
 require 'clamp'
 require 'tenderloin/commands/main'

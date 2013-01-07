@@ -1,3 +1,5 @@
+require 'logger'
+
 module Tenderloin
   module Util
     def self.included(base)
