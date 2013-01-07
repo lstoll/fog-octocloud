@@ -106,6 +106,10 @@ error
       def compute
         @@fog_compute ||= begin
                             fog_conf = Tenderloin.config.fog
+                            unless fog_conf
+                              logger.error "No Tenderfile or the like has been loaded, so we don't know what driver to use"
+                              exit 1
+                            end
                             require "fog-#{fog_conf.provider.to_s}"
                             opts = fog_conf.options.merge({:provider => fog_conf.provider})
                             Fog::Compute.new(opts)
