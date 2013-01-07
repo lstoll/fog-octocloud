@@ -35,6 +35,14 @@ module Fog
           # super
         # end
 
+        def enable_shared_folders
+          connection.enable_shared_folders(identity)
+        end
+
+        def share_folder(name, source)
+          connection.share_folder(identity, name, source)
+        end
+
         def save
           requires :name, :cube
 

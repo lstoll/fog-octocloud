@@ -13,9 +13,6 @@ module Fog
           vmrun 'addSharedFolder', :opts => "#{name} #{hostpath}", :vmx => vmx
         end
 
-        private
-
-
         def enable_shared_folders(vmx)
           # Just try it.
           vmrun 'enableSharedFolders', :vmx => vmx rescue nil
