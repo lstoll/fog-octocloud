@@ -53,7 +53,17 @@ module Tenderloin
       end
 
       def rsync(ip,src,dst)
-        cmd = "rsync -avz --delete -e \"#{cmd_ssh_opts}\" #{src} #{options.username}@#{ip}:#{dst}"
+        rsync_expect = File.join(File.dirname(__FILE__), '..', '..', 'script', 'tenderloin-rsync-expect.sh')
+        keyopts = ''
+        expectopts = ''
+        if options.keys
+          keyopts = options.keys.map {|k| "-i #{File.expand_path(k)}"}.join(' ')
+        else
+          expectopts = rsync_expect + " " + options.password + " "
+        end
+        sshopts = "ssh #{keyopts} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p #{options.port}"
+        cmd = "#{expectopts}rsync -avz --delete -e \"#{sshopts}\" #{src} #{options.username}@#{ip}:#{dst}"
+        p cmd
         `#{cmd}`
       end
 
