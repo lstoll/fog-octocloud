@@ -53,6 +53,11 @@ module Tenderloin
       end
     end
 
+    class FogConfig < Base
+      attr_accessor :provider
+      attr_accessor :options
+    end
+
     class SSHConfig < Base
       attr_accessor :username
       attr_accessor :password
@@ -129,6 +134,7 @@ module Tenderloin
 
       def initialize
         @ssh = SSHConfig.new
+        @fog = FogConfig.new
         @vm = VMConfig.new
         @tenderloin = TenderloinConfig.new
         @package = PackageConfig.new

@@ -4,6 +4,9 @@ Tenderloin::Config.run do |config|
   config.tenderloin.dotfile_name = ".tenderloin"
   config.tenderloin.home = "~/.tenderloin"
 
+  config.fog.provider = "Tenderfusion"
+  config.fog.options = {}
+
   config.ssh.username = "tenderloin"
   config.ssh.password = "tenderloin"
   config.ssh.key = nil
