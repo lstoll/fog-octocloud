@@ -5,7 +5,7 @@ module Tenderloin
         load_env!
         if Env.persisted_vm && vm = Env.compute.servers.get(Env.persisted_vm)
           logger.info "Destroying VM..."
-          vm.stop if vm.running?
+          vm.stop if vm.respond_to?(:stop) && vm.running?
           vm.destroy
           Env.remove_persisted_vm_id()
         else

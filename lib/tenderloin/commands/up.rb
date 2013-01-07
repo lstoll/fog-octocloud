@@ -3,11 +3,15 @@ module Tenderloin
     subcommand "up", "start the environment" do
       def execute
         load_env!
+        # Need to filter the cube by name, because our identity scheme is different
+        cubes = Env.compute.cubes.all
+        cube = cubes.index {|i| i.name = config.vm.box }
+        cube = cubes[cube]
         if Env.persisted_vm && vm = Env.compute.servers.get(Env.persisted_vm)
           logger.info "VM already created. Starting VM if its not already running..."
           vm.start unless vm.running?
           wait_on_vm(vm)
-        elsif !Env.compute.cubes.get(config.vm.box)
+        elsif !cube
           logger.error "No cube called #{config.vm.box} found."
         else
           # Calculate a resonable name. Where's my threading macro?
@@ -20,9 +24,10 @@ module Tenderloin
           # Actually create the vm.
           logger.info "Creating VM"
           # TODO - options are slighty different for octocloud, need to pass memory here.
-          svr = Env.compute.servers.create(:name => name, :cube => config.vm.box)
+
+          svr = Env.compute.servers.create(:name => name, :cube => cube, :type => config.vm.type, :memory => config.vm.memory)
           logger.info "Persisting the VM ID (#{svr.identity})..."
-          Env.persist_vm(name)
+          Env.persist_vm(svr.identity)
           wait_on_vm(svr)
         end
       end

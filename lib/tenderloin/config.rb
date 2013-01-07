@@ -80,7 +80,8 @@ module Tenderloin
       attr_accessor :box_vmx
       attr_accessor :project_directory
       attr_accessor :hd_location
-
+      attr_accessor :type
+      attr_accessor :memory
 
       def initialize
       end

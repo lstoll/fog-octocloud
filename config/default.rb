@@ -17,6 +17,10 @@ Tenderloin::Config.run do |config|
   config.vm.box_vmx = "box.vmx"
   config.vm.project_directory = "/tenderloin"
 
+  # This is for octocloud
+  config.vm.type = "esx"
+  config.vm.memory = "512"
+
   config.package.name = 'tenderloin'
   config.package.extension = '.box'
 

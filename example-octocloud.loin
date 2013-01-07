@@ -1,0 +1,16 @@
+raise "need OCTOCLOUD_API_KEY and OCTOCLOUD_URL" unless ENV['OCTOCLOUD_API_KEY'] && ENV['OCTOCLOUD_URL']
+
+Tenderloin::Config.run do |config|
+  # Every Tenderloin virtual environment requires a box to build off of.
+  config.vm.box = "precise64"
+
+  config.fog.provider = "octocloud"
+  config.fog.options = {:octocloud_url => ENV['OCTOCLOUD_URL'], :octocloud_api_key => ENV['OCTOCLOUD_API_KEY']}
+
+  config.provisioning.command = "/bin/ls /"
+
+  config.provisioning.rsync << ["lib/", "/tmp"]
+
+  # Doesn't work on the octocloud target
+  config.shared_folders.enabled = false
+end

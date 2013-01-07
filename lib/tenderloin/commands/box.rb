@@ -18,7 +18,7 @@ module Tenderloin
         def execute
           load_env!
           Env.compute.cubes.all.each do |cube|
-            puts cube.identity
+            puts cube.name
           end
         end
       end
