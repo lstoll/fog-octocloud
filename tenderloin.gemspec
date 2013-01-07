@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "net-ssh",               ">= 2.0.19"
   s.add_runtime_dependency "net-scp",               ">= 1.0.2"
   s.add_runtime_dependency "archive-tar-minitar",   "= 0.5.2"
-  s.add_runtime_dependency "thor"
-  s.add_runtime_dependency "fog",  "~> 1.6"
+  s.add_runtime_dependency "clamp",                 "~> 0.5.0"
+  s.add_runtime_dependency "fog",                   "~> 1.6"
 end

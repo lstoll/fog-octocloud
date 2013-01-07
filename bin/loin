@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'tenderloin'
+require 'tenderloin/commands/main'
 
-Tenderloin::CLI.start(ARGV)
+LoinCLI.run
