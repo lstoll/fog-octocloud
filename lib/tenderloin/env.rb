@@ -1,7 +1,6 @@
 module Tenderloin
   class Env
     BOXFILE_NAME = "Tenderfile"
-    HOME_SUBDIRS = ["tmp", "boxes"]
 
     # Initialize class variables used
     @@persisted_vm = nil
@@ -11,10 +10,6 @@ module Tenderloin
     extend Tenderloin::Util
 
     class << self
-      def box
-        load_box! unless @@box
-        @@box
-      end
       def persisted_vm; @@persisted_vm; end
       def root_path; @@root_path; end
       def dotfile_path
@@ -22,23 +17,16 @@ module Tenderloin
         loinsplit[-1] = "." + loinsplit[-1] + ".loinstate"
         File.join(root_path, *loinsplit)
       end
-      def home_path; File.expand_path(Tenderloin.config.tenderloin.home); end
-      def tmp_path; File.join(home_path, "tmp"); end
-      def boxes_path; File.join(home_path, "boxes"); end
-      def vms_path; File.join(home_path, "vms"); end
 
       def load!
         load_root_path!
         load_config!
-        load_home_directory!
-        load_box!
         load_vm!
       end
 
       def load_config!
         # Prepare load paths for config files
         load_paths = [File.join(PROJECT_ROOT, "config", "default.rb")]
-        load_paths << File.join(box.directory, BOXFILE_NAME) if box
         load_paths << File.join(root_path, $ROOTFILE_NAME) if root_path
 
         # Then clear out the old data
@@ -51,31 +39,6 @@ module Tenderloin
 
         # Execute the configurations
         Config.execute!
-      end
-
-      def load_home_directory!
-        home_dir = File.expand_path(Tenderloin.config.tenderloin.home)
-
-        dirs = HOME_SUBDIRS.collect { |path| File.join(home_dir, path) }
-        dirs.unshift(home_dir)
-
-        dirs.each do |dir|
-          next if File.directory?(dir)
-
-          logger.info "Creating home directory since it doesn't exist: #{dir}"
-          FileUtils.mkdir_p(dir)
-        end
-      end
-
-      def load_box!
-        return unless root_path
-
-        @@box = Box.find(Tenderloin.config.vm.box) if Tenderloin.config.vm.box
-
-        if @@box
-          logger.info("Reloading configuration to account for loaded box...")
-          load_config!
-        end
       end
 
       def load_vm!
@@ -119,27 +82,6 @@ since it describes the expected environment that tenderloin is supposed
 to manage. Please create a #{$ROOTFILE_NAME} and place it in your project
 root.
 msg
-        end
-      end
-
-      def require_box
-        require_root_path
-
-        if !box
-          if !Tenderloin.config.vm.box
-            error_and_exit(<<-msg)
-No base box was specified! A base box is required as a staring point
-for every tenderloin virtual machine. Please specify one in your Tenderfile
-using `config.vm.box`
-msg
-          elsif !Tenderloin.config.vm.box_url
-            error_and_exit(<<-msg)
-Specified box `#{Tenderloin.config.vm.box}` does not exist!
-
-The box must be added through the `tenderloin box add` command. Please view
-the documentation associated with the command for more information.
-msg
-          end
         end
       end
 
