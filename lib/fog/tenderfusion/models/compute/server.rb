@@ -9,8 +9,9 @@ module Fog
         identity :name
 
         attribute :running
-        attribute :ip
+        attribute :public_ip_address
         attribute :cube
+        attribute :private_key_file
 
         # def ssh(commands, options={}, &blk)
         #   require 'net/ssh'
@@ -27,13 +28,9 @@ module Fog
           running
         end
 
-        def public_ip_address
-          ip
+        def ip
+          public_ip_address
         end
-
-        # def initialize(attributes={})
-          # super
-        # end
 
         def enable_shared_folders
           connection.enable_shared_folders(identity)
@@ -79,12 +76,47 @@ module Fog
           true
         end
 
+        def private_key
+          if private_key_file
+            file = Pathname(private_key_file)
+            file.read if file.exist?
+          else
+            @attributes[:private_key]
+          end
+        end
+
+
         def sshable?
           ready? && !public_ip_address.nil? && !!Timeout::timeout(30) { ssh 'pwd' }
         rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
           false
         end
 
+        def run(script, run_dir = Pathname.new('/tmp'))
+          script = Pathname(script)
+          path   = run_dir.join(script.basename)
+
+          scp(script.to_s, path.to_s)
+          ssh("chmod +x #{path}")
+          ssh(path.to_s)
+        end
+
+        def fix_key_permissions!
+          private_key_file.chmod(0600)
+        end
+
+        def shell
+          fix_key_permissions!
+
+          command = %w[ssh]
+          command << '-i' << private_key_file.realpath.to_s
+          command << '-o' << 'UserKnownHostsFile=/dev/null'
+          command << '-o' << 'StrictHostKeyChecking=no'
+          command << '-p' << port.to_s
+          command << "#{username}@localhost"
+
+          system(*command)
+        end
 
       end
 
