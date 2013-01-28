@@ -112,8 +112,8 @@ module Fog
           command << '-i' << private_key_file.realpath.to_s
           command << '-o' << 'UserKnownHostsFile=/dev/null'
           command << '-o' << 'StrictHostKeyChecking=no'
-          command << '-p' << port.to_s
-          command << "#{username}@localhost"
+          command << '-p' << '22'
+          command << "#{username}@#{public_ip_address}"
 
           system(*command)
         end
