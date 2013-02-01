@@ -1,6 +1,6 @@
 source :gemcutter
 
-gemspec :name => 'tenderloin'
+gemspec
 
 group :test do
   gem "rspec"
