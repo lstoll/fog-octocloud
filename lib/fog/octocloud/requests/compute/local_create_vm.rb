@@ -9,6 +9,8 @@ module Fog
 
           source = @box_dir.join(boxname)
 
+          raise "Invalid Cube Specified" unless source.exist?
+
           # Copy the VMX over
           FileUtils.cp(Pathname.glob(source.join("*.vmx")).first,
                        target.join(vmname + ".vmx"))
