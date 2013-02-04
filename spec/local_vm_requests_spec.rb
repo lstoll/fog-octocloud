@@ -3,7 +3,9 @@ require "helper"
 # TODO - Global vars are so bad. Do this better.
 
 describe "VMRequests" do
-  it "creates a VM"
+  it "creates a VM" do
+    get_compute(:local).local_create_vm((ENV['LOCAL_TEST_VM_NAME'] || 'precise64'), 'spec-test-vm')
+  end
 
   it "lists available vms" do
     res = get_compute(:local).local_list_defined_vms
