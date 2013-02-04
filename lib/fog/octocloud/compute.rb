@@ -61,7 +61,7 @@ module Fog
 
       class Real
 
-        atr_reader :local_mode
+        attr_reader :local_mode
 
         def initialize(options)
           # local
