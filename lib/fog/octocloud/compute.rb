@@ -3,6 +3,9 @@ require 'fog/compute'
 require 'base64'
 require 'json'
 
+require 'fog/octocloud/vmx_file'
+require 'fog/octocloud/ovftool'
+
 module Fog
   module Compute
     class Octocloud < Fog::Service

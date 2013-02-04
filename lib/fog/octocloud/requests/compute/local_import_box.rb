@@ -1,6 +1,5 @@
 require 'open-uri'
 require 'archive/tar/minitar'
-require 'fog/tenderfusion/ovftool'
 
 module Fog
   module Compute
