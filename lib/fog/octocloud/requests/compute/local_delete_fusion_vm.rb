@@ -5,7 +5,15 @@ module Fog
 
         def local_delete_fusion_vm(name)
           vmx = vmx_for_vm(name)
-          vmrun 'deleteVM', :vmx => vmx
+          (1..10).each do |i|
+            begin
+              vmrun 'deleteVM', :vmx => vmx
+            rescue
+              sleep 2
+              next
+            end
+            break
+          end
         end
 
       end
