@@ -6,32 +6,32 @@ describe "VMRequests" do
   it "creates a VM"
 
   it "lists available vms" do
-    res = get_compute.list_vms
+    res = get_compute(:local).local_list_defined_vms
     res.should_not be_empty
   end
 
   it "loads VM info" do
-    res = get_compute.get_vm(vm_path)
+    res = get_compute(:local).local_get_vm(vm_path)
     res.should_not be_empty
     res.should be_kind_of Hash
   end
 
   it "starts the VM" do
-    get_compute.start_vm(vm_path)
-    get_compute.get_vm(vm_path)['vm']['running'].should be_true
+    get_compute(:local).local_start_vm(vm_path)
+    get_compute(:local).local_get_vm(vm_path)['vm']['running'].should be_true
   end
 
   it "gets the IP" do
-    get_compute.get_vm(vm_path)['vm']['ip'].should_not be_nil
+    get_compute(:local).local_get_vm(vm_path)['vm']['ip'].should_not be_nil
   end
 
   it "stops the VM" do
-    get_compute.stop_vm(vm_path)
-    get_compute.get_vm(vm_path)['vm']['running'].should be_false
+    get_compute(:local).local_stop_vm(vm_path)
+    get_compute(:local).local_get_vm(vm_path)['vm']['running'].should be_false
   end
 
   it "destroys the VM" do
-    lambda { get_compute.destroy_vm(vm_path) }.should_not raise_error
+    lambda { get_compute(:local).local_destroy_vm(vm_path) }.should_not raise_error
   end
 
 end
