@@ -11,7 +11,7 @@ module Fog
     class Octocloud < Fog::Service
       VMRUN = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
 
-      recognizes :loin_dir, :octocloud_api_key, :octocloud_url
+      recognizes :local_dir, :octocloud_api_key, :octocloud_url
 
       model_path 'fog/octocloud/models/compute'
       model       :server
@@ -63,10 +63,9 @@ module Fog
 
         def initialize(options)
           # local
-          @loin_dir     = options[:loin_dir] || "~/.tenderloin"
-          @local_mode = true
-          @box_dir = Pathname.new(File.join(@loin_dir, 'boxes')).expand_path
-          @vm_dir = Pathname.new(File.join(@loin_dir, 'vms')).expand_path
+          @local_dir = Pathname.new(options[:local_dir] || "~/.octocloud").expand_path
+          @box_dir = @local_dir.join('boxes').expand_path
+          @vm_dir = @local_dir.join('vms').expand_path
 
           # remote
           @octocloud_url            = options[:octocloud_url] || Fog.credentials[:octocloud_url]
@@ -74,8 +73,13 @@ module Fog
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
           if @octocloud_url || @octocloud_api_key
-            @connection = Fog::Connection.new(@octocloud_url, @persistent, @connection_options)
             @local_mode = false
+            @connection = Fog::Connection.new(@octocloud_url, @persistent, @connection_options)
+          else
+            @local_mode = true
+            @local_dir.mkdir unless @local_dir.exist?
+            @box_dir.mkdir unless @box_dir.exist?
+            @vm_dir.mkdir unless @vm_dir.exist?
           end
         end
 
