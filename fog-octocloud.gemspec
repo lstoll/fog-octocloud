@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.description = %q{Some kind of cloud. Supports local VMWare Fusion VMs, as well as octocloud server}
   s.email = ["lincoln@github.com"]
   s.extra_rdoc_files = [
-                        "README.md"
+                        "README.md",
                         "LICENCE",
   ]
   s.files = %w[lib].map {|d| Dir.glob("#{d}/**/*")}.flatten + %w[README.md]
