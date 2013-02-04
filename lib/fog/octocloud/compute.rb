@@ -6,8 +6,9 @@ require 'json'
 module Fog
   module Compute
     class Octocloud < Fog::Service
+      VMRUN = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
 
-      requires :octocloud_api_key, :octocloud_url
+      recognizes :loin_dir, :octocloud_api_key, :octocloud_url
 
       model_path 'fog/octocloud/models/compute'
       model       :server
@@ -16,6 +17,24 @@ module Fog
       collection  :cubes
 
       request_path 'fog/octocloud/requests/compute'
+
+      ## local
+      # fusion interaction
+      request :vm_running
+      request :start_vm
+      request :stop_vm
+      request :delete_fusion_vm
+      request :vm_ip
+      request :share_folder
+      # filesystem interaction
+      request :list_boxes
+      request :list_defined_vms
+      request :create_vm
+      request :delete_vm_files
+      request :delete_box
+      request :import_box
+
+      ## remote
       request :create_vm
       request :list_vms
       request :lookup_vm
@@ -40,14 +59,47 @@ module Fog
       class Real
 
         def initialize(options)
+          # local
+          @loin_dir     = options[:loin_dir] || "~/.tenderloin"
+          @local_mode = true
+          @box_dir = Pathname.new(File.join(@loin_dir, 'boxes')).expand_path
+          @vm_dir = Pathname.new(File.join(@loin_dir, 'vms')).expand_path
+
+          # remote
           @octocloud_url            = options[:octocloud_url] || Fog.credentials[:octocloud_url]
           @octocloud_api_key        = options[:octocloud_api_key] || Fog.credentials[:octocloud_api_key]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
-          @connection = Fog::Connection.new(@octocloud_url, @persistent, @connection_options)
+          if @octocloud_url || @octocloud_api_key
+            @connection = Fog::Connection.new(@octocloud_url, @persistent, @connection_options)
+            @local_mode = false
+          end
         end
 
-        def request(options)
+        def vmx_for_vm(name)
+          @vm_dir.join(name, name + ".vmx")
+        end
+
+        def vmrun(cmd, args={})
+          args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
+          runcmd = "#{VMRUN} #{cmd} #{args[:vmx]} #{args[:opts]}"
+          retrycount = 0
+          while true
+            res = `#{runcmd}`
+            if $? == 0
+              return res
+            elsif res =~ /The virtual machine is not powered on/
+              return
+            else
+              if res =~ /VMware Tools are not running/
+                sleep 1; next unless retrycount > 10
+              end
+              raise "Error running vmrun command:\n#{runcmd}\nResponse: " + res
+            end
+          end
+        end
+
+        def remote_request(options)
 
           login = Base64.urlsafe_encode64(@octocloud_api_key + ":")
 
@@ -73,6 +125,26 @@ module Fog
             Fog::JSON.decode(response.body)
           end
         end
+
+        private
+
+        # def to_dotted_hash(source, target = {}, namespace = nil)
+        #   prefix = "#{namespace}." if namespace
+        #   case source
+        #   when Hash
+        #     source.each do |key, value|
+        #       to_dotted_hash(value, target, "#{prefix}#{key}")
+        #     end
+        #   when Array
+        #     source.each_with_index do |value, index|
+        #       to_dotted_hash(value, target, "#{prefix}#{index}")
+        #     end
+        #   else
+        #     target[namespace] = source
+        #   end
+        #   target
+        # end
+
 
       end
     end
