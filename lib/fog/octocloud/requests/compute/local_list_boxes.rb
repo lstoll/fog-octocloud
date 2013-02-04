@@ -5,7 +5,7 @@ module Fog
 
         def list_boxes()
           # Boxes are just dirs in the right path
-          boxes = box_dir.children.select {|p| p.directory?}
+          boxes = @box_dir.children.select {|p| p.directory?}
           boxes.map {|b| b.split[1].to_s}
         end
 

@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def delete_box(boxname)
-          target = box_dir.join(boxname)
+          target = @box_dir.join(boxname)
           target.rmtree
         end
 
