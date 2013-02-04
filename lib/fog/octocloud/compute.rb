@@ -61,6 +61,8 @@ module Fog
 
       class Real
 
+        atr_reader :local_mode
+
         def initialize(options)
           # local
           @local_dir = Pathname.new(options[:local_dir] || "~/.octocloud").expand_path
