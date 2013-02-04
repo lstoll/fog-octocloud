@@ -11,40 +11,37 @@ module Fog
         model Fog::Compute::Octocloud::Server
 
         def all()
-          set_model
           if connection.local_mode
-            load(connection.local_list_defined_vms())
+            load(connection.local_list_defined_vms().map {|i| {:name => i}})
           else
             load(connection.list_vms())
           end
         end
 
         def get(identifier)
-          set_model
           data = nil
 
-          if connection.local_mode && connection.list_defined_vms().include?(name)
-            data = new({ :name => name,
-                         :running => connection.vm_running(name),
-                         :ip => connection.vm_ip(name)})
+          if connection.local_mode && connection.local_list_defined_vms().include?(identifier)
+            data = { :name => identifier,
+                     :running => connection.local_vm_running(identifier),
+                     :public_ip_address => connection.local_vm_ip(identifier)}
           else
             data = connection.lookup_vm(identifier)
           end
 
-          if data.empty?
+          if data.nil? || data.empty?
             nil
           else
             new(data)
           end
         end
 
-        private
-
-        def set_model
+        # MAGIC SWITCH
+        def model
           if connection.local_mode
-            model Fog::Compute::Octocloud::LocalServer
+            Fog::Compute::Octocloud::LocalServer
           else
-            model Fog::Compute::Octocloud::RemoteServer
+            Fog::Compute::Octocloud::RemoteServer
           end
         end
 
