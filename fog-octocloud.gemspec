@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir.glob("spec/**/*")
 
   s.add_runtime_dependency "fog",  "~> 1.5"
-  s.add_runtime_dependency "json", "~> 1.7"
+  s.add_runtime_dependency "json", "~> 1"
   s.add_runtime_dependency "net-ssh",               ">= 2.0.19"
   s.add_runtime_dependency "net-scp",               ">= 1.0.2"
   s.add_runtime_dependency "archive-tar-minitar",   "= 0.5.2"
