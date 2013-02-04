@@ -3,7 +3,7 @@ module Fog
     class Tenderfusion
       class Real
 
-        def create_vm(boxname, vmname)
+        def local_create_vm(boxname, vmname)
           target = @vm_dir.join(vmname)
           target.mkdir unless target.exist?
 

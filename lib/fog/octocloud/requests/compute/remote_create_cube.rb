@@ -3,7 +3,7 @@ module Fog
     class Octocloud
       class Real
 
-        def create_cube(opts = {})
+        def remote_create_cube(opts = {})
           unless opts.include?('name') && opts.include?('url')
             raise ArgumentError.new("name and url are required options to create a Cube")
           end

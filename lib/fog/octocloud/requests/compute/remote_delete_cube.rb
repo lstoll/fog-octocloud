@@ -3,7 +3,7 @@ module Fog
     class Octocloud
       class Real
 
-        def delete_cube(id)
+        def remote_delete_cube(id)
           request(:method => :delete, :expects => [204], :path => "/api/cubes/#{id}" )
         end
 

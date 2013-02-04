@@ -3,7 +3,7 @@ module Fog
     class Octocloud
       class Real
 
-        def list_vms()
+        def remote_list_vms()
           request(:method => :get, :expects => [200], :path => "/api/virtual-machines" )
         end
 

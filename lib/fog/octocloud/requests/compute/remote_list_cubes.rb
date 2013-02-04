@@ -3,7 +3,7 @@ module Fog
     class Octocloud
       class Real
 
-        def list_cubes()
+        def remote_list_cubes()
           request(:method => :get, :expects => [200], :path => "/api/cubes" )
         end
 

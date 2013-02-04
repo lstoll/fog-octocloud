@@ -3,7 +3,7 @@ module Fog
     class Tenderfusion
       class Real
 
-        def delete_vm_files(vmname)
+        def local_delete_vm_files(vmname)
           target = @vm_dir.join(vmname)
           target.rmtree
         end

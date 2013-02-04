@@ -3,7 +3,7 @@ module Fog
     class Tenderfusion
       class Real
 
-        def vm_ip(name)
+        def local_vm_ip(name)
           vmx = vmx_for_vm(name)
           ip = get_guest_var(vmx, 'ip')
           if ip && ip.strip =~ /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/

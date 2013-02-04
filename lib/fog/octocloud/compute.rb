@@ -20,30 +20,30 @@ module Fog
 
       ## local
       # fusion interaction
-      request :vm_running
-      request :start_vm
-      request :stop_vm
-      request :delete_fusion_vm
-      request :vm_ip
-      request :share_folder
+      request :local_vm_running
+      request :local_start_vm
+      request :local_stop_vm
+      request :local_delete_fusion_vm
+      request :local_vm_ip
+      request :local_share_folder
       # filesystem interaction
-      request :list_boxes
-      request :list_defined_vms
-      request :create_vm
-      request :delete_vm_files
-      request :delete_box
-      request :import_box
+      request :local_list_boxes
+      request :local_list_defined_vms
+      request :local_create_vm
+      request :local_delete_vm_files
+      request :local_delete_box
+      request :local_import_box
 
       ## remote
-      request :create_vm
-      request :list_vms
-      request :lookup_vm
-      request :delete_vm
-      request :create_cube
-      request :list_cubes
-      request :get_cube
-      request :update_cube
-      request :delete_cube
+      request :remote_create_vm
+      request :remote_list_vms
+      request :remote_lookup_vm
+      request :remote_delete_vm
+      request :remote_create_cube
+      request :remote_list_cubes
+      request :remote_get_cube
+      request :remote_update_cube
+      request :remote_delete_cube
 
 
       class Mock

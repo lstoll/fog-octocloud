@@ -3,7 +3,7 @@ module Fog
     class Tenderfusion
       class Real
 
-        def get_vm(id)
+        def local_get_vm(id)
           request(['jsondump', '-f', id], true).merge({:id => id})
         end
 

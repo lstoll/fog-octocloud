@@ -3,7 +3,7 @@ module Fog
     class Octocloud
       class Real
 
-        def update_cube(id, opts = {})
+        def remote_update_cube(id, opts = {})
           request(:method => :put, :expects => [200], :body => opts, :path => "/api/cubes/#{id}" )
         end
 

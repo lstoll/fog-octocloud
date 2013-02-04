@@ -7,7 +7,7 @@ module Fog
     class Tenderfusion
       class Real
 
-        def import_box(boxname, src)
+        def local_import_box(boxname, src)
           target = @box_dir.join(boxname)
           target.mkdir unless target.exist?
           input = Archive::Tar::Minitar::Input.new(open(src))
