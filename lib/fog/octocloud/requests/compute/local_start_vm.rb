@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Tenderfusion
+    class Octocloud
       class Real
 
         def local_start_vm(name, opts={:headless => true})

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Tenderfusion
+    class Octocloud
       class Real
 
         def local_delete_fusion_vm(name)

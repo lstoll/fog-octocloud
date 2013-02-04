@@ -4,7 +4,7 @@ require 'fog/tenderfusion/ovftool'
 
 module Fog
   module Compute
-    class Tenderfusion
+    class Octocloud
       class Real
 
         def local_import_box(boxname, src)
