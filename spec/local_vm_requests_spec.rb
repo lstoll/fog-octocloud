@@ -12,28 +12,27 @@ describe "VMRequests" do
     res.should_not be_empty
   end
 
-  it "loads VM info" do
-    res = get_compute(:local).local_get_vm(vm_path)
-    res.should_not be_empty
-    res.should be_kind_of Hash
+  it "loads VM state" do
+    res = get_compute(:local).local_vm_running('spec-test-vm')
+    res.should be_false
   end
 
   it "starts the VM" do
-    get_compute(:local).local_start_vm(vm_path)
-    get_compute(:local).local_get_vm(vm_path)['vm']['running'].should be_true
+    get_compute(:local).local_start_vm('spec-test-vm')
+    get_compute(:local).local_vm_running('spec-test-vm').should be_true
   end
 
   it "gets the IP" do
-    get_compute(:local).local_get_vm(vm_path)['vm']['ip'].should_not be_nil
+    get_compute(:local).local_vm_ip('spec-test-vm').should_not be_nil
   end
 
   it "stops the VM" do
-    get_compute(:local).local_stop_vm(vm_path)
-    get_compute(:local).local_get_vm(vm_path)['vm']['running'].should be_false
+    get_compute(:local).local_stop_vm('spec-test-vm')
+    get_compute(:local).local_vm_running('spec-test-vm').should be_false
   end
 
   it "destroys the VM" do
-    lambda { get_compute(:local).local_destroy_vm(vm_path) }.should_not raise_error
+    lambda { get_compute(:local).local_delete_vm_files('spec-test-vm') }.should_not raise_error
   end
 
 end
