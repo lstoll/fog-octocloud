@@ -120,6 +120,11 @@ module Fog
           cube_str = cube.kind_of?(Cube) ? cube.name : cube
 
           connection.local_create_vm(cube_str, name)
+          new_id = if @attributes[:id] == nil
+                     "octocloud-#{cube_str}-#{Time.now.strftime("%Y%m%d%H%M%S")}"
+                   else
+                     @attributes[:id]
+                   end
 
           connection.local_start_vm(name)
 
