@@ -7,7 +7,7 @@ module Fog
       class Server < Fog::Compute::Server
 
         def self.setup_default_attributes
-          identity :name
+          identity :id
 
           attribute :running
           attribute :public_ip_address
@@ -90,11 +90,11 @@ module Fog
         end
 
         def destroy
-          requires :name
+          requires :identity
           stop
-          connection.local_delete_fusion_vm(name)
+          connection.local_delete_fusion_vm(identity)
           begin
-            connection.local_delete_vm_files(name)
+            connection.local_delete_vm_files(identity)
           rescue Errno::ENOENT => e
             #ignore, vmware has already deleted it
           end
@@ -102,33 +102,37 @@ module Fog
         end
 
         def start
-          requires :name
-          connection.local_start_vm(name)
+          requires :identity
+          connection.local_start_vm(identity)
           true
         end
 
         def stop
-          requires :name
-          connection.local_stop_vm(name)
+          requires :identity
+          connection.local_stop_vm(identity)
           true
         end
 
 
         def save
-          requires :name, :cube
+          requires :cube
 
-          cube_str = cube.kind_of?(Cube) ? cube.name : cube
+          cube_str = cube.kind_of?(Cube) ? cube.identity : cube
 
-          connection.local_create_vm(cube_str, name)
           new_id = if @attributes[:id] == nil
                      "octocloud-#{cube_str}-#{Time.now.strftime("%Y%m%d%H%M%S")}"
                    else
                      @attributes[:id]
                    end
 
-          connection.local_start_vm(name)
 
-          merge_attributes({:running => connection.local_vm_running(name)})
+          connection.local_create_vm(cube_str, new_id)
+
+          connection.local_start_vm(new_id)
+
+          merge_attributes({:running => connection.local_vm_running(new_id),
+                             :cube => cube_str,
+                             :id => new_id})
         end
       end
 

@@ -12,7 +12,7 @@ module Fog
 
         def all()
           if connection.local_mode
-            load(connection.local_list_defined_vms().map {|i| {:name => i}})
+            load(connection.local_list_defined_vms().map {|i| {:id => i}})
           else
             load(connection.list_vms())
           end
@@ -22,7 +22,7 @@ module Fog
           data = nil
 
           if connection.local_mode && connection.local_list_defined_vms().include?(identifier)
-            data = { :name => identifier,
+            data = { :id => identifier,
                      :running => connection.local_vm_running(identifier),
                      :public_ip_address => connection.local_vm_ip(identifier)}
           else

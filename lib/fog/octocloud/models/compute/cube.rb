@@ -8,7 +8,7 @@ module Fog
 
         def self.setup_default_attributes
 
-          identity :name
+          identity :id
 
           attribute :source
 
@@ -22,13 +22,14 @@ module Fog
       class LocalCube < Cube
         setup_default_attributes
 
-         def save
-          connection.local_import_box(name, source)
+        def save
+          requires :identity, :source
+          connection.local_import_box(identity, source)
         end
 
         def destroy
-          requires :name
-          connection.local_delete_box(name)
+          requires :identity
+          connection.local_delete_box(identity)
           true
         end
       end
@@ -37,7 +38,7 @@ module Fog
         setup_default_attributes
 
         def save
-          requires :name, :url
+          requires :identity, :url
 
           attrs = {'name' => name, 'url' => url}
           if identity
