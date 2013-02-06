@@ -12,10 +12,10 @@ module Fog
         end
       end
 
-      def self.ovf2vmx(ovf, vmx, opts = {})
+      def self.convert(src, dst, opts = {})
         cmd_opts = []
         cmd_opts << '--lax' if opts[:lax]
-        run("#{cmd_opts.join(' ')} #{ovf} #{vmx}")
+        run("#{cmd_opts.join(' ')} #{src} #{dst}")
       end
 
     end
