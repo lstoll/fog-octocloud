@@ -21,10 +21,12 @@ module Fog
         def get(identifier)
           data = nil
 
-          if connection.local_mode && connection.local_list_defined_vms().include?(identifier)
-            data = { :id => identifier,
-                     :running => connection.local_vm_running(identifier),
-                     :public_ip_address => connection.local_vm_ip(identifier)}
+          if connection.local_mode
+            if connection.local_list_defined_vms().include?(identifier)
+              data = { :id => identifier,
+                :running => connection.local_vm_running(identifier),
+                :public_ip_address => connection.local_vm_ip(identifier)}
+            end
           else
             data = connection.lookup_vm(identifier)
           end
