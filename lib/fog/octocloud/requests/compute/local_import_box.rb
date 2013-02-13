@@ -27,7 +27,7 @@ module Fog
         ## Imports a box - this is a tarball from vagrant or tenderloin.
         # Path can be URL or file
         def import_box(target, path)
-          input = Archive::Tar::Minitar::Input.new(open(src))
+          input = Archive::Tar::Minitar::Input.new(open(path))
           input.each do |entry|
             input.extract_entry(target, entry)
           end
