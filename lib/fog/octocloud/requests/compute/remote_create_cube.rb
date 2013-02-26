@@ -4,8 +4,8 @@ module Fog
       class Real
 
         def remote_create_cube(opts = {})
-          unless opts.include?('name') && opts.include?('url')
-            raise ArgumentError.new("name and url are required options to create a Cube")
+          unless opts.include?('name')
+            raise ArgumentError.new("name are required options to create a Cube")
           end
           remote_request(:method => :post, :expects => [200], :body => opts, :path => "/api/cubes" )
         end
