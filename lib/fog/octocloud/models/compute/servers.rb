@@ -14,7 +14,7 @@ module Fog
           if connection.local_mode
             load(connection.local_list_defined_vms().map {|i| {:id => i}})
           else
-            load(connection.list_vms())
+            load(connection.remote_list_vms())
           end
         end
 
