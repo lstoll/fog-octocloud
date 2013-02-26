@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def remote_list_cubes()
-          request(:method => :get, :expects => [200], :path => "/api/cubes" )
+          remote_request(:method => :get, :expects => [200], :path => "/api/cubes" )
         end
 
       end

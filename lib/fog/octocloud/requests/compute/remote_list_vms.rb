@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def remote_list_vms()
-          request(:method => :get, :expects => [200], :path => "/api/virtual-machines" )
+          remote_request(:method => :get, :expects => [200], :path => "/api/virtual-machines" )
         end
 
       end
