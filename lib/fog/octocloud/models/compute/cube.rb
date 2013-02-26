@@ -8,7 +8,7 @@ module Fog
 
         def self.setup_default_attributes
 
-          identity :id
+          identity :name
 
           attribute :source
 

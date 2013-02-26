@@ -11,7 +11,7 @@ module Fog
 
         def all()
           if connection.local_mode
-            load(connection.local_list_boxes().map {|i| {:id => i}})
+            load(connection.local_list_boxes().map {|i| {:name => i}})
           else
             load(connection.remote_list_cubes())
           end
@@ -19,7 +19,7 @@ module Fog
 
         def get(identifier)
           data = if connection.local_mode
-            connection.local_list_boxes().include?(identifier) ? {:id => identifier} : {}
+            connection.local_list_boxes().include?(identifier) ? {:name => identifier} : {}
           else
             connection.remote_get_cube(identifier)
           end
