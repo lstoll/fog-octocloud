@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'pry'
+require 'pp'
+
+ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+LIBDIR = File.join(ROOT, 'lib')
+
+$LOAD_PATH.unshift(LIBDIR)
+
+require 'fog-octocloud'
+
+def reload!
+  Dir.glob(LIBDIR + '/**/*.rb').each {|d| load d}
+  true
+end
+
+binding.pry
