@@ -23,13 +23,13 @@ module Fog
         setup_default_attributes
 
         def save
-          requires :identity, :source
-          connection.local_import_box(identity, source)
+          requires :name, :source
+          connection.local_import_box(name, source)
         end
 
         def destroy
-          requires :identity
-          connection.local_delete_box(identity)
+          requires :name
+          connection.local_delete_box(name)
           true
         end
       end
@@ -37,17 +37,31 @@ module Fog
       class RemoteCube < Cube
         setup_default_attributes
 
-        def save
-          requires :identity, :url
+        attribute :remote_id, :aliases => 'id'
 
-          attrs = {'name' => name, 'url' => url}
-          if identity
+        def save
+          requires :name, :source
+
+          attrs = {'name' => identity}#, 'url' => url}
+          if remote_id  # we're updating
             data = connection.remote_update_cube(identity, attrs)
           else
-            data = connection.remote_create_cube(attrs)
+            data = {}
+            begin
+              data = connection.remote_create_cube(attrs)
+              p
+              # upload the content
+            rescue Exception => e
+              begin
+                connection.remote_delete_cube(data['remote_id'])
+              rescue Exception
+              end
+            end
+
           end
           merge_attributes(data)
           true
+
         end
 
         def destroy
