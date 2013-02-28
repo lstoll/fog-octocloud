@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def remote_delete_cube(id)
-          request(:method => :delete, :expects => [204], :path => "/api/cubes/#{id}" )
+          remote_request(:method => :delete, :expects => [204], :path => "/api/cubes/#{id}" )
         end
 
       end
