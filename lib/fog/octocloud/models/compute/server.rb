@@ -184,7 +184,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_vm(id)
+          connection.remote_delete_vm(id)
           true
         end
 

@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def remote_delete_vm(vmid)
-          request(:method => :delete, :expects => [204], :path => "/api/virtual-machines/#{vmid}" )
+          remote_request(:method => :delete, :expects => [204], :path => "/api/virtual-machines/#{vmid}" )
         end
 
       end
