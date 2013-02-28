@@ -47,6 +47,7 @@ module Fog
       request :remote_get_cube
       request :remote_update_cube
       request :remote_delete_cube
+      request :remote_upload_cube
 
 
       class Mock
