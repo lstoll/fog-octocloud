@@ -42,20 +42,18 @@ module Fog
         def save
           requires :name, :source
 
+          data = {}
+
           attrs = {'name' => identity}#, 'url' => url}
           if remote_id  # we're updating
             data = connection.remote_update_cube(identity, attrs)
           else
-            data = {}
             begin
               data = connection.remote_create_cube(attrs)
-              p
-              # upload the content
+              connection.remote_upload_cube(data['id'], source)
             rescue Exception => e
-              begin
-                connection.remote_delete_cube(data['remote_id'])
-              rescue Exception
-              end
+              connection.remote_delete_cube(data['remote_id'])
+              raise e
             end
 
           end
@@ -65,8 +63,8 @@ module Fog
         end
 
         def destroy
-          requires :id
-          connection.remote_delete_cube(id)
+          requires :remote_id
+          connection.remote_delete_cube(remote_id)
           true
         end
 
