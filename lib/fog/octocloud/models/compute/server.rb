@@ -176,7 +176,7 @@ module Fog
           attributes[:cube] = cube.kind_of?(Cube) ? cube.name : cube
           attributes[:memory] = memory.to_i
 
-          data = connection.create_vm(attributes)
+          data = connection.remote_create_vm(attributes)
 
           merge_attributes(data)
           true
