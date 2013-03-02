@@ -2,6 +2,8 @@ require 'open-uri'
 require 'archive/tar/minitar'
 require 'tempfile'
 
+require 'fog/octocloud/requests/compute/convert_cube'
+
 module Fog
   module Compute
     class Octocloud
