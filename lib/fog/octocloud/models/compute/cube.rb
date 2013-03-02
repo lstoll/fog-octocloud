@@ -11,6 +11,7 @@ module Fog
           identity :name
 
           attribute :source
+          attribute :md5
 
           # These are the 'octocloud' ones. Get some commonality!
           # identity :id
@@ -50,8 +51,12 @@ module Fog
           else
             begin
               data = connection.remote_create_cube(attrs)
+              md5 = Digest::MD5.file(File.expand_path(source).to_s).hexdigest
               connection.remote_upload_cube(data['id'], source)
+              connection.remote_update_cube(data['id'], {:md5 => md5})
             rescue Exception => e
+              p e
+              puts exception.backtrace
               connection.remote_delete_cube(data['remote_id'])
               raise e
             end
