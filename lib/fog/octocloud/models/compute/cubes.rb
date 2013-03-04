@@ -21,7 +21,18 @@ module Fog
           data = if connection.local_mode
             connection.local_list_boxes().include?(identifier) ? {:name => identifier} : {}
           else
-            connection.remote_get_cube(identifier)
+             begin
+               connection.remote_get_cube(Integer(identifier).to_s)
+             rescue ArgumentError => e
+               cube = connection.remote_list_cubes.select {|i| i['name'] == identifier}.first
+               if cube
+                 connection.remote_get_cube(cube["id"])
+               else
+                 {}
+               end
+             rescue Excon::Errors::NotFound => nfe
+               {}
+             end
           end
 
           if data.empty?
