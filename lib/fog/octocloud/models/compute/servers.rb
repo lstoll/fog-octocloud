@@ -28,7 +28,7 @@ module Fog
                 :public_ip_address => connection.local_vm_ip(identifier)}
             end
           else
-            data = connection.lookup_vm(identifier)
+            data = connection.remote_lookup_vm(identifier)
           end
 
           if data.nil? || data.empty?
