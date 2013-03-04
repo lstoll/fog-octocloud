@@ -138,18 +138,18 @@ module Fog
 
       class RemoteServer < Server
 
-           identity :id
+        setup_default_attributes
 
         attribute :memory
         attribute :name
         attribute :message
         attribute :expiry
-        attribute :cube
+        # attribute :cube
         attribute :mac
         attribute :type, :aliases => :hypervisor_type
         attribute :hypervisor_host
         attribute :template
-        attribute :running
+        # attribute :running
         attribute :ip
 
         def running?
