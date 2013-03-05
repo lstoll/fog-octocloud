@@ -56,18 +56,15 @@ module Fog
           end
 
           if remote_id  # we're updating
-            puts "remote updating"
             # check if the source has been specified. If it has, we only only upload if the md5 differs
             # if it hasn't, submit the metadata for revision
             if source && (new_md5 = file_md5(source)) != md5
-              puts "new file"
               connection.remote_upload_cube(remote_id, source)
               data = connection.remote_update_cube(remote_id, attrs.merge({:md5 => new_md5}))
             elsif !source
-              puts "no source, update meta"
               data = connection.remote_update_cube(remote_id, attrs)
             else
-              puts "noop"
+              # noop
             end
           else
             begin
