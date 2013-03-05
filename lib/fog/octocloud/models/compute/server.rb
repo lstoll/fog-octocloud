@@ -150,6 +150,7 @@ module Fog
         attribute :hypervisor_host
         attribute :template
         # attribute :running
+        attribute :state
         attribute :ip
 
         def running?
@@ -157,8 +158,7 @@ module Fog
         end
 
         def ready?
-          reload
-          running && ip
+          (state == "up") && ip
         end
 
         def public_ip_address
