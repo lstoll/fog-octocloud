@@ -165,6 +165,11 @@ module Fog
           ip
         end
 
+        def start
+          # noop this, only really valid for local
+          true
+        end
+
 
         # def initialize(attributes={})
           # super
