@@ -11,7 +11,7 @@ module Fog
     class Octocloud < Fog::Service
       VMRUN = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
 
-      recognizes :local_dir, :octocloud_api_key, :octocloud_url
+      recognizes :local_dir, :octocloud_api_key, :octocloud_url, :octocloud_user
 
       model_path 'fog/octocloud/models/compute'
       model       :server
@@ -75,6 +75,11 @@ module Fog
           @octocloud_api_key        = options[:octocloud_api_key] || Fog.credentials[:octocloud_api_key]
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
+
+          if options[:octocloud_user]
+            @connection_options.merge!({:headers => {:"x-proxy-as" => options[:octocloud_user]}})
+          end
+
           if @octocloud_url || @octocloud_api_key
             @local_mode = false
             @connection = Fog::Connection.new(@octocloud_url, @persistent, @connection_options)
