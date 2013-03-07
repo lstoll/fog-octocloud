@@ -152,6 +152,7 @@ module Fog
         # attribute :running
         attribute :state
         attribute :ip
+        attribute :cpus
 
         def running?
           running
