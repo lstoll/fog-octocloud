@@ -55,9 +55,11 @@ module Fog
           script = Pathname(script)
           path   = run_dir.join(script.basename)
 
-          scp(script.to_s, path.to_s)
-          ssh("chmod +x #{path}")
-          ssh(path.to_s, &block)
+          path_string = path.to_s
+
+          scp(script.to_s, path_string)
+          ssh("chmod +x #{path_string}")
+          ssh(path_string, &block)
         end
 
         def fix_key_permissions!
