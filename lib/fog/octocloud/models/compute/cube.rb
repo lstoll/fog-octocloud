@@ -18,6 +18,13 @@ module Fog
           # attribute :url
           # attribute :revision
         end
+
+        # Gets the ID for a named cube, or nil if it doesn't exist.
+        protected
+
+        def file_md5(path)
+          Digest::MD5.file(File.expand_path(path).to_s).hexdigest
+        end
       end
 
       class LocalCube < Cube
@@ -25,7 +32,17 @@ module Fog
 
         def save
           requires :name, :source
-          connection.local_import_box(name, source)
+          source_md5 = file_md5(source)
+          if exist_cube = connection.cubes.get(name)
+            if exist_cube.md5 == source_md5
+              # Nothing has changed, bail
+              return
+            else
+              # Kill it, so we can re-import
+              exist_cube.destroy
+            end
+          end
+          connection.local_import_box(name, source, source_md5)
         end
 
         def destroy
@@ -89,13 +106,6 @@ module Fog
           requires :remote_id
           connection.remote_delete_cube(remote_id)
           true
-        end
-
-        # Gets the ID for a named cube, or nil if it doesn't exist.
-        private
-
-        def file_md5(path)
-          Digest::MD5.file(File.expand_path(path).to_s).hexdigest
         end
 
 
