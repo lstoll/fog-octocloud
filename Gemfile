@@ -1,6 +1,6 @@
 source :gemcutter
 
-gemspec
+gemspec :name => 'fog-octocloud'
 
 gem 'pry'
 
