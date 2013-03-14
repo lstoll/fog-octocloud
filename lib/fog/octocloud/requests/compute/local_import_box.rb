@@ -13,7 +13,12 @@ module Fog
           target = @box_dir.join(boxname)
           target.mkdir unless target.exist?
 
-          import_file(target, src)
+          begin
+            import_file(target, src)
+          rescue Exception => e
+            target.rmtree
+            raise e
+          end
 
           File.open(target.join('.md5'), 'w') {|f| f.write(md5) }
         end
