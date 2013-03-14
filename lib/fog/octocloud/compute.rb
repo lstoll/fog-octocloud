@@ -29,6 +29,7 @@ module Fog
       request :local_delete_fusion_vm
       request :local_vm_ip
       request :local_share_folder
+
       # filesystem interaction
       request :local_list_boxes
       request :local_list_defined_vms
@@ -36,6 +37,9 @@ module Fog
       request :local_delete_vm_files
       request :local_delete_box
       request :local_import_box
+
+      # vmx interaction
+      request :local_edit_vmx
 
       ## remote
       request :remote_create_vm

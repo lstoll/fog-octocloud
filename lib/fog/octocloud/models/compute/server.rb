@@ -83,6 +83,8 @@ module Fog
       class LocalServer < Server
         setup_default_attributes
 
+        attribute :network_type
+
         def enable_shared_folders
           connection.local_enable_shared_folders(identity)
         end
@@ -119,6 +121,8 @@ module Fog
         def save
           requires :cube
 
+          conn_type = self.network_type || "nat"
+
           cube_str = cube.kind_of?(Cube) ? cube.identity : cube
 
           new_id = if @attributes[:id] == nil
@@ -129,6 +133,8 @@ module Fog
 
 
           connection.local_create_vm(cube_str, new_id)
+
+          connection.local_edit_vmx(new_id, {"ethernet0.connectionType" => conn_type})
 
           connection.local_start_vm(new_id)
 
