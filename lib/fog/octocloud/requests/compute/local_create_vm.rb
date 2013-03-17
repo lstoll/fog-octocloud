@@ -38,7 +38,7 @@ module Fog
             data.delete "ethernet0.generatedAddressOffset"
             data.delete "ethernet1.generatedAddressOffset"
             data.delete 'displayname'
-            data['displayName'] = "tenderloin-" + name
+            data['displayName'] = name
           end
 
 
