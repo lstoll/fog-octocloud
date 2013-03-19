@@ -33,7 +33,7 @@ module Fog
         def save
           requires :name, :source
           source_md5 = file_md5(source)
-          if exist_cube = connection.cubes.get(name)
+          if exist_cube = service.cubes.get(name)
             if exist_cube.md5 == source_md5
               # Nothing has changed, bail
               return
@@ -42,12 +42,12 @@ module Fog
               exist_cube.destroy
             end
           end
-          connection.local_import_box(name, source, source_md5)
+          service.local_import_box(name, source, source_md5)
         end
 
         def destroy
           requires :name
-          connection.local_delete_box(name)
+          service.local_delete_box(name)
           true
         end
       end
@@ -66,7 +66,7 @@ module Fog
           attrs = {'name' => identity}
 
           # ensure if we already match a remote cube, we fetch the remote_id
-          if !remote_id && existcube = connection.cubes.get(name)
+          if !remote_id && existcube = service.cubes.get(name)
             remote_id = existcube.remote_id
             # ensure we have the right md5 while we're at it
             md5 = existcube.md5
@@ -76,23 +76,23 @@ module Fog
             # check if the source has been specified. If it has, we only only upload if the md5 differs
             # if it hasn't, submit the metadata for revision
             if source && (new_md5 = file_md5(source)) != md5
-              connection.remote_upload_cube(remote_id, source)
-              data = connection.remote_update_cube(remote_id, attrs.merge({:md5 => new_md5}))
+              service.remote_upload_cube(remote_id, source)
+              data = service.remote_update_cube(remote_id, attrs.merge({:md5 => new_md5}))
             elsif !source
-              data = connection.remote_update_cube(remote_id, attrs)
+              data = service.remote_update_cube(remote_id, attrs)
             else
               # noop
             end
           else
             begin
-              data = connection.remote_create_cube(attrs)
+              data = service.remote_create_cube(attrs)
               md5 = file_md5(source)
-              connection.remote_upload_cube(data['id'], source)
-              connection.remote_update_cube(data['id'], {:md5 => md5})
+              service.remote_upload_cube(data['id'], source)
+              service.remote_update_cube(data['id'], {:md5 => md5})
             rescue Exception => e
               p e
               puts exception.backtrace
-              connection.remote_delete_cube(data['remote_id'])
+              service.remote_delete_cube(data['remote_id'])
               raise e
             end
 
@@ -104,7 +104,7 @@ module Fog
 
         def destroy
           requires :remote_id
-          connection.remote_delete_cube(remote_id)
+          service.remote_delete_cube(remote_id)
           true
         end
 

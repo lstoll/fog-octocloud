@@ -86,19 +86,19 @@ module Fog
         attribute :network_type
 
         def enable_shared_folders
-          connection.local_enable_shared_folders(identity)
+          service.local_enable_shared_folders(identity)
         end
 
         def share_folder(name, source)
-          connection.local_share_folder(identity, name, source)
+          service.local_share_folder(identity, name, source)
         end
 
         def destroy
           requires :identity
           stop
-          connection.local_delete_fusion_vm(identity)
+          service.local_delete_fusion_vm(identity)
           begin
-            connection.local_delete_vm_files(identity)
+            service.local_delete_vm_files(identity)
           rescue Errno::ENOENT => e
             #ignore, vmware has already deleted it
           end
@@ -107,13 +107,13 @@ module Fog
 
         def start
           requires :identity
-          connection.local_start_vm(identity)
+          service.local_start_vm(identity)
           true
         end
 
         def stop
           requires :identity
-          connection.local_stop_vm(identity)
+          service.local_stop_vm(identity)
           true
         end
 
@@ -132,13 +132,13 @@ module Fog
                    end
 
 
-          connection.local_create_vm(cube_str, new_id)
+          service.local_create_vm(cube_str, new_id)
 
-          connection.local_edit_vmx(new_id, {"ethernet0.connectionType" => conn_type})
+          service.local_edit_vmx(new_id, {"ethernet0.connectionType" => conn_type})
 
-          connection.local_start_vm(new_id)
+          service.local_start_vm(new_id)
 
-          merge_attributes({:running => connection.local_vm_running(new_id),
+          merge_attributes({:running => service.local_vm_running(new_id),
                              :cube => cube_str,
                              :id => new_id})
         end
@@ -190,7 +190,7 @@ module Fog
           attributes[:cube] = cube.kind_of?(Cube) ? cube.name : cube
           attributes[:memory] = memory.to_i
 
-          data = connection.remote_create_vm(attributes)
+          data = service.remote_create_vm(attributes)
 
           merge_attributes(data)
           true
@@ -198,7 +198,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.remote_delete_vm(id)
+          service.remote_delete_vm(id)
           true
         end
 

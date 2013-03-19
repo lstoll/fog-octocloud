@@ -10,24 +10,24 @@ module Fog
         model Fog::Compute::Octocloud::Cube
 
         def all()
-          if connection.local_mode
-            load(connection.local_list_boxes())
+          if service.local_mode
+            load(service.local_list_boxes())
           else
-            load(connection.remote_list_cubes())
+            load(service.remote_list_cubes())
           end
         end
 
         def get(identifier)
-          data = if connection.local_mode
-            cube_select = connection.local_list_boxes().select {|i| i[:name] == identifier}
+          data = if service.local_mode
+            cube_select = service.local_list_boxes().select {|i| i[:name] == identifier}
             cube_select.empty? ? {} : cube_select.first
           else
              begin
-               connection.remote_get_cube(Integer(identifier).to_s)
+               service.remote_get_cube(Integer(identifier).to_s)
              rescue ArgumentError => e
-               cube = connection.remote_list_cubes.select {|i| i['name'] == identifier}.first
+               cube = service.remote_list_cubes.select {|i| i['name'] == identifier}.first
                if cube
-                 connection.remote_get_cube(cube["id"])
+                 service.remote_get_cube(cube["id"])
                else
                  {}
                end
@@ -45,7 +45,7 @@ module Fog
 
         # MAGIC SWITCH
         def model
-          if connection.local_mode
+          if service.local_mode
             Fog::Compute::Octocloud::LocalCube
           else
             Fog::Compute::Octocloud::RemoteCube
