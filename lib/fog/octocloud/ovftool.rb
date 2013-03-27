@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class OVFTool
-      TOOL = "/Applications/VMware\\ Fusion.app//Contents/Library/VMware\\ OVF\\ Tool/ovftool"
+      TOOL = `which ovftool`.empty? ? "/Applications/VMware\\ Fusion.app//Contents/Library/VMware\\ OVF\\ Tool/ovftool" : `which ovftool`.strip
 
       def self.run(cmd, opts = '')
         res = `#{TOOL} #{opts} #{cmd}`
