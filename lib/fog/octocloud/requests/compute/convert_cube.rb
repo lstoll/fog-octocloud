@@ -49,8 +49,11 @@ module Fog
         def convert_ova(ova, target)
           vmx = target.join('vmwarebox.vmx')
           OVFTool.convert(ova.to_s, vmx.to_s)
-          FileUtils.rm_rf(target)
-          FileUtils.mv(target.to_s + ".vmwarevm", target)
+          if target.join('.vmwarevm').exist?
+            # Probably on OS X where it makes a 'bundle' vm. Move it in to original place
+            FileUtils.rm_rf(target)
+            FileUtils.mv(target.join('.vmwarevm'), target)
+          end
         end
 
         def convert_box_ovf(path)
