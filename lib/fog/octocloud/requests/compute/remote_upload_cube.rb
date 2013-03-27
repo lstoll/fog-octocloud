@@ -14,7 +14,8 @@ module Fog
             import_file(Pathname.new(dir), upload)
             upload = Dir[File.join(dir, '*.vmdk')].first
           end
-          remote_request(:method => :POST, :expects => [200], :path => "/api/cubes/#{id}.vmdk", :body => File.new(upload) )
+          remote_request(:method => :POST, :expects => [200], :path => "/api/cubes/#{id}.vmdk",
+                         :body => File.new(upload), :read_timeout => 600, :write_timeout => 600)
           FileUtils.rm_rf(dir) if dir
         end
 
