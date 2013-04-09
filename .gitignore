@@ -12,3 +12,4 @@ doc/
 *.loinstate
 example.loin
 /*.gem
+/bin/*
