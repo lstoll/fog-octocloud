@@ -56,7 +56,12 @@ module Fog
 
       class Mock
 
+        attr_reader :local_mode, :data
+
         def initialize(options)
+          # For now, just assume remote mode. It's the most likely to be mocked & tested
+          @local_mode = false
+          @data = {:servers => [], :cubes => []}
         end
 
         def request(options)
