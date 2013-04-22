@@ -1,6 +1,13 @@
 module Fog
   module Compute
     class Octocloud
+      class Mock
+        def remote_create_vm(opts)
+          data[:servers] << opts
+          opts
+        end
+      end
+
       class Real
 
         def remote_create_vm(opts = {})
