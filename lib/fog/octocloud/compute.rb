@@ -9,8 +9,6 @@ require 'fog/octocloud/ovftool'
 module Fog
   module Compute
     class Octocloud < Fog::Service
-      VMRUN = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
-
       recognizes :local_dir, :octocloud_api_key, :octocloud_url, :octocloud_user
 
       model_path 'fog/octocloud/models/compute'
@@ -72,12 +70,14 @@ module Fog
       class Real
 
         attr_reader :local_mode
+        attr_accessor :vmrunner
 
         def initialize(options)
           # local
           @local_dir = Pathname.new(options[:local_dir] || "~/.octocloud").expand_path
           @box_dir = @local_dir.join('boxes').expand_path
           @vm_dir = @local_dir.join('vms').expand_path
+          @vmrunner = VMRun
 
           # remote
           @octocloud_url            = options[:octocloud_url] || Fog.credentials[:octocloud_url]
@@ -104,23 +104,8 @@ module Fog
           @vm_dir.join(name, name + ".vmx")
         end
 
-        def vmrun(cmd, args={})
-          args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
-          runcmd = "#{VMRUN} #{cmd} #{args[:vmx]} #{args[:opts]}"
-          retrycount = 0
-          while true
-            res = `#{runcmd}`
-            if $? == 0
-              return res
-            elsif res =~ /The virtual machine is not powered on/
-              return
-            else
-              if res =~ /VMware Tools are not running/
-                sleep 1; next unless retrycount > 10
-              end
-              raise "Error running vmrun command:\n#{runcmd}\nResponse: " + res
-            end
-          end
+        def vmrun(cmd, args = {})
+          @vmrunner.run(cmd, args)
         end
 
         def remote_request(options)
@@ -169,6 +154,30 @@ module Fog
         #   target
         # end
 
+
+      end
+
+      class VMRun
+        VMRUN_COMMAND = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
+
+        def self.run(cmd, args={})
+          args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
+          runcmd = "#{VMRUN_COMMAND} #{cmd} #{args[:vmx]} #{args[:opts]}"
+          retrycount = 0
+          while true
+            res = `#{runcmd}`
+            if $? == 0
+              return res
+            elsif res =~ /The virtual machine is not powered on/
+              return
+            else
+              if res =~ /VMware Tools are not running/
+                sleep 1; next unless retrycount > 10
+              end
+              raise "Error running vmrun command:\n#{runcmd}\nResponse: " + res
+            end
+          end
+        end
 
       end
     end
