@@ -5,6 +5,7 @@ module Fog
 
         def local_share_folder(vmname, name, hostpath)
           vmx = vmx_for_vm(vmname)
+          hostpath = Pathname.new(hostpath).expand_path
           # Try and clean up first, to handle path changes.
           begin
             vmrun 'removeSharedFolder', :opts => "#{name}", :vmx => vmx
