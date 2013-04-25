@@ -9,6 +9,14 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def local_snapshot(vmname, name)
+          ''
+        end
+
+      end
     end
   end
 end

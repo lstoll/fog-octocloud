@@ -27,6 +27,21 @@ class LocalSnapshotRequestsTest < MiniTest::Unit::TestCase
 
 end
 
+class LocalSnapshotMockRequestsTest < MiniTest::Unit::TestCase
+  def setup
+    Fog.mock!
+    @compute = Fog::Compute.new(:provider => 'octocloud')
+  end
+
+  def teardown
+    Fog.unmock!
+  end
+
+  def test_create_snapshot
+    assert @compute.local_snapshot('name', 'snapname')
+  end
+end
+
 class RecordingRunner
   @@commands = []
 
