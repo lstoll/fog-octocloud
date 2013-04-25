@@ -27,6 +27,7 @@ module Fog
       request :local_delete_fusion_vm
       request :local_vm_ip
       request :local_share_folder
+      request :local_snapshot
 
       # filesystem interaction
       request :local_list_boxes
