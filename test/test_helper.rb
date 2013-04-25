@@ -1,4 +1,11 @@
 require 'fog-octocloud'
+require 'pathname'
+require 'tmpdir'
+require 'fileutils'
+
+def fixture_dir
+  Pathname.new(File.dirname(__FILE__)).join('fixtures').expand_path
+end
 
 ## Replacement command runner, can be used to see what was executed
 class RecordingRunner
