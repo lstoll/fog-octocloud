@@ -23,7 +23,10 @@ module Fog
         protected
 
         def file_md5(path)
-          Digest::MD5.file(File.expand_path(path).to_s).hexdigest
+          path = Pathname.new(path).expand_path
+          if path.exist?
+            Digest::MD5.file(path.to_s).hexdigest
+          end
         end
       end
 
