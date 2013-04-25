@@ -15,13 +15,15 @@ module Fog
           FileUtils.cp(Pathname.glob(source.join("*.vmx")).first,
                        target.join(vmname + ".vmx"))
 
-          # Copy all VMDK's over
+          # Symlink the VMDK's
           Pathname.glob(source.join('*.vmdk')) do |f|
-            FileUtils.cp f.expand_path, target
+            FileUtils.ln_s f.expand_path, target.join(f.basename)
           end
 
-          # TODO: Need to reset MAC/ID/name etc!!
           setup_uuid_mac(vmname)
+
+          # Snapshot the VM to ensure we don't write to the original disk
+          local_snapshot(vmname, 'linked_clone')
           true
         end
 

@@ -1,9 +1,14 @@
 require 'minitest/autorun'
 require File.expand_path('../../test_helper', __FILE__)
 
-class SomeTest < MiniTest::Unit::TestCase
+class ServersTest < MiniTest::Unit::TestCase
   def setup
+    Fog.mock!
     @compute = Fog::Compute.new(:provider => 'octocloud')
+  end
+
+  def teardown
+    Fog.unmock!
   end
 
   def test_servers_returns_list
