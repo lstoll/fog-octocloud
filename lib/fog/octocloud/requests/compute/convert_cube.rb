@@ -1,3 +1,5 @@
+require 'open-uri'
+
 module Fog
   module Compute
     class Octocloud
