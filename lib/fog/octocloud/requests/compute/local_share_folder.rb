@@ -16,7 +16,8 @@ module Fog
 
         def local_enable_shared_folders(vmx)
           vmx = vmx_for_vm(vmx)
-          # Just try it.
+          # Just try it. Disable first, to force being set up
+          vmrun 'disableSharedFolders', :vmx => vmx rescue nil
           vmrun 'enableSharedFolders', :vmx => vmx rescue nil
         end
 
