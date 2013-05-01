@@ -10,10 +10,16 @@ end
 ## Replacement command runner, can be used to see what was executed
 class RecordingRunner
   @@commands = []
+  @@next_return = []
 
   def self.run(cmd, args = {})
     # args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
     @@commands << [cmd, args]
+    @@next_return.pop
+  end
+
+  def self.add_return(val)
+    @@next_return << val
   end
 
   def self.commands

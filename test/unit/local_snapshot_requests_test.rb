@@ -25,6 +25,25 @@ class LocalSnapshotRequestsTest < MiniTest::Unit::TestCase
     assert_equal RecordingRunner.commands.pop, exptected_run
   end
 
+  def test_list_snapshots
+    RecordingRunner.add_return("total snapshots: 3\nsnapshot1\nsnapshot2\nsnapshot3\n")
+    assert_equal @compute.local_list_snapshots(), ['snapshot1', 'snapshot2', 'snapshot3']
+  end
+
+  def test_revert_snapshot
+    RecordingRunner.add_return("total shapshots: 1\nsnapshot1")
+    @compute.local_revert_to_snapshot('snapshot1')
+    assert_equal RecordingRunner.commands.pop, ['revertToSnapshot', [:opts => "'snapshot1"]]
+    RecordingRunner.add_return("total shapshots: 1\nsnapshot2")
+    assert_raises(Exception) { @compute.local_revert_to_snapshot('snapshot1') }
+  end
+
+  def test_delete_shapshot
+    RecordingRunner.add_return("total shapshots: 1\nsnapshot1")
+    @compute.local_delete_snapshot('snapshot1')
+    assert_equal RecordingRunner.commands.pop, ['deleteSnapshot', [:opts => "'snapshot1"]]
+  end
+
 end
 
 class LocalSnapshotMockRequestsTest < MiniTest::Unit::TestCase
