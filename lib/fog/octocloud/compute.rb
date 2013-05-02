@@ -28,6 +28,7 @@ module Fog
       request :local_vm_ip
       request :local_share_folder
       request :local_snapshot
+      request :local_list_snapshots
 
       # filesystem interaction
       request :local_list_boxes
