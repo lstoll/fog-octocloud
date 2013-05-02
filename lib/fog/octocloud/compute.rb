@@ -78,7 +78,7 @@ module Fog
           @local_dir = Pathname.new(options[:local_dir] || "~/.octocloud").expand_path
           @box_dir = @local_dir.join('boxes').expand_path
           @vm_dir = @local_dir.join('vms').expand_path
-          @vmrunner = VMRun
+          @vmrunner = VMRun.new
 
           # remote
           @octocloud_url            = options[:octocloud_url] || Fog.credentials[:octocloud_url]
@@ -141,7 +141,7 @@ module Fog
       class VMRun
         VMRUN_COMMAND = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
 
-        def self.run(cmd, args={})
+        def run(cmd, args={})
           args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
           runcmd = "#{VMRUN_COMMAND} #{cmd} #{args[:vmx]} #{args[:opts]}"
           retrycount = 0
