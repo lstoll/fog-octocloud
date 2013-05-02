@@ -3,8 +3,9 @@ module Fog
     class Octocloud
       class Mock
         def remote_create_vm(opts)
-          data[:servers] << opts
-          opts
+          newid = rand(99999)
+          data[:servers][newid] = opts
+          opts.merge({:id => newid})
         end
       end
 

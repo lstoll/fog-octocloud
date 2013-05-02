@@ -60,7 +60,7 @@ module Fog
         def initialize(options)
           # For now, just assume remote mode. It's the most likely to be mocked & tested
           @local_mode = false
-          @data = {:servers => [], :cubes => []}
+          @data = {:servers => {}, :cubes => {}}
         end
 
         def request(options)
