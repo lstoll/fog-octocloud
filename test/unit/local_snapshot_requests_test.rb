@@ -26,12 +26,12 @@ class LocalSnapshotRequestsTest < MiniTest::Unit::TestCase
 
   def test_list_snapshots
     @runner.add_return("total snapshots: 3\nsnapshot1\nsnapshot2\nsnapshot3\n")
-    assert_equal @compute.local_list_snapshots(), ['snapshot1', 'snapshot2', 'snapshot3']
+    assert_equal @compute.local_list_snapshots('tvm'), ['snapshot1', 'snapshot2', 'snapshot3']
   end
 
   def test_revert_snapshot
     @runner.add_return("total shapshots: 1\nsnapshot1")
-    @compute.local_revert_to_snapshot('snapshot1')
+    @compute.local_revert_to_snapshot('tvm', 'snapshot1')
     assert_equal @runner.commands.pop, ['revertToSnapshot', [:opts => "'snapshot1"]]
     @runner.add_return("total shapshots: 1\nsnapshot2")
     assert_raises(Exception) { @compute.local_revert_to_snapshot('snapshot1') }
@@ -39,7 +39,7 @@ class LocalSnapshotRequestsTest < MiniTest::Unit::TestCase
 
   def test_delete_shapshot
     @runner.add_return("total shapshots: 1\nsnapshot1")
-    @compute.local_delete_snapshot('snapshot1')
+    @compute.local_delete_snapshot('tvm', 'snapshot1')
     assert_equal @runner.commands.pop, ['deleteSnapshot', [:opts => "'snapshot1"]]
   end
 
