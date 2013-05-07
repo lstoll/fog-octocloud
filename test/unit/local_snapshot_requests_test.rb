@@ -58,4 +58,9 @@ class LocalSnapshotMockRequestsTest < MiniTest::Unit::TestCase
   def test_create_snapshot
     assert @compute.local_snapshot('name', 'snapname')
   end
+
+  def test_list_snapshots
+    @compute.data[:servers]['tvm1'] = {:snapshots => ['snap1']}
+    assert_equal @compute.local_list_snapshots('tvm1'), ['snap1']
+  end
 end

@@ -14,6 +14,7 @@ module Fog
       class Mock
 
         def local_list_snapshots(vmname)
+          raise "Server does not exist" unless data[:servers][vmname]
           data[:servers][vmname][:snapshots] || []
         end
 
