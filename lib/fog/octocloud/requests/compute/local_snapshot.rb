@@ -13,7 +13,8 @@ module Fog
       class Mock
 
         def local_snapshot(vmname, name)
-          ''
+          data[:servers][vmname][:snapshots] ||= []
+          data[:servers][vmname][:snapshots] << name
         end
 
       end
