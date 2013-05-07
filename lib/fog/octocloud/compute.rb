@@ -30,6 +30,7 @@ module Fog
       request :local_snapshot
       request :local_list_snapshots
       request :local_revert_to_snapshot
+      request :local_delete_snapshot
 
       # filesystem interaction
       request :local_list_boxes
