@@ -20,4 +20,16 @@ class ServersTest < MiniTest::Unit::TestCase
     assert res.kind_of? Fog::Compute::Octocloud::Server
     assert res.type == :esx
   end
+
+  def test_local_server_snapshotting
+    @compute.data[:servers]['server1'] = {:snapshots => []}
+    server = Fog::Compute::Octocloud::LocalServer.new(:id => 'server1', :service => @compute)
+    assert_equal server.snapshots, []
+    server.snapshot('snap1')
+    assert_equal server.snapshots, ['snap1']
+    # This doesn't really do anything in mock mode, so make sure the call is OK
+    assert server.revert_to_snapshot('snap1')
+    server.delete_snapshot('snap1')
+    assert_equal server.snapshots, []
+  end
 end

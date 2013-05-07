@@ -117,6 +117,35 @@ module Fog
           true
         end
 
+        # Public: Take a snapshot of the virtual machine
+        # This will operate regardless of if the VM is running or not. If it is
+        # running the contents of memory will need to be dumped to disk, this
+        # may take some time.
+        #
+        # name - the name used to refer to the snapshot
+        def snapshot(name)
+          service.local_snapshot(id, name)
+        end
+
+        # Public: Lists all snapshots on this virtual machine
+        def snapshots()
+          service.local_list_snapshots(id)
+        end
+
+        # Public: Deletes the given snapshot
+        #
+        # name - name of the snapshot to delete
+        def delete_snapshot(name)
+          service.local_delete_snapshot(id, name)
+        end
+
+        # Public: Revert to the named snapshot
+        #
+        # name - name of the snapshot to revert to
+        def revert_to_snapshot(name)
+          service.local_revert_to_snapshot(id, name)
+        end
+
 
         def save
           requires :cube
