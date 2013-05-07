@@ -32,9 +32,13 @@ class LocalSnapshotRequestsTest < MiniTest::Unit::TestCase
   def test_revert_snapshot
     @runner.add_return("total shapshots: 1\nsnapshot1")
     @compute.local_revert_to_snapshot('tvm', 'snapshot1')
-    assert_equal @runner.commands.pop, ['revertToSnapshot', [:opts => "'snapshot1"]]
-    @runner.add_return("total shapshots: 1\nsnapshot2")
-    assert_raises(Exception) { @compute.local_revert_to_snapshot('snapshot1') }
+    assert_equal @runner.commands.pop,
+    ['revertToSnapshot',
+      {
+        :vmx => @td.join('vms/tvm/tvm.vmx'),
+        :opts => "'snapshot1'"
+      }
+    ]
   end
 
   def test_delete_shapshot
@@ -62,5 +66,11 @@ class LocalSnapshotMockRequestsTest < MiniTest::Unit::TestCase
   def test_list_snapshots
     @compute.data[:servers]['tvm1'] = {:snapshots => ['snap1']}
     assert_equal @compute.local_list_snapshots('tvm1'), ['snap1']
+  end
+
+  def test_revert_to_snapshot
+    @compute.data[:servers]['tvm1'] = {:snapshots => ['snap1']}
+    assert @compute.local_revert_to_snapshot('tvm1', 'snap1')
+    assert_raises(RuntimeError) { @compute.local_revert_to_snapshot('tvm1', 'snap7') }
   end
 end
