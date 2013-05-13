@@ -63,8 +63,17 @@ module Fog
           ovf = path.join('box.ovf')
           vmx = path.join('vmwarebox.vmx')
           OVFTool.convert(ovf.to_s, vmx.to_s, :lax => true)
-          FileUtils.rm_rf(path)
-          FileUtils.mv(path.to_s + ".vmwarevm", path)
+          # things work a little different under linux ovftool. So handle appropriately
+          if path.join(".vmwarevm").exist?
+            # This was a mac ovftool conversion
+            FileUtils.rm_rf(path)
+            FileUtils.mv(path.join(".vmwarevm"), path)
+          else
+            # Delete items we didn't create
+            remove = path.entries.delete_if {|f| f.to_s =~ /vmwarebox/ || f.to_s == '.' || f.to_s == '..'}
+            remove.each {|f| path.join(f).delete }
+          end
+
         end
 
       end
