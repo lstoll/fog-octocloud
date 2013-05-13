@@ -93,9 +93,7 @@ module Fog
               service.remote_upload_cube(data['id'], source)
               service.remote_update_cube(data['id'], {:md5 => md5})
             rescue Exception => e
-              p e
-              puts exception.backtrace
-              service.remote_delete_cube(data['remote_id'])
+              service.remote_delete_cube(data['id'])
               raise e
             end
 
