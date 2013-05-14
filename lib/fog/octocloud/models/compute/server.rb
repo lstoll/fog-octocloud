@@ -22,6 +22,27 @@ module Fog
         #   super(commands, options)
         # end
 
+        def listening_for_ssh?
+          listening_on?(22)
+        end
+
+        def listening_on?(port)
+          begin
+            Timeout::timeout(1) do
+              begin
+                s = TCPSocket.new(public_ip_address, port)
+                s.close
+                return true
+              rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+                return false
+              end
+            end
+          rescue Timeout::Error
+          end
+
+          return false
+        end
+
         def ready?
           reload
           running && ip
