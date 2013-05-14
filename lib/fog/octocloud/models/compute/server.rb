@@ -27,6 +27,9 @@ module Fog
         end
 
         def listening_on?(port)
+          # Make sure we are working with the latest data
+          reload unless public_ip_address
+          return false unless public_ip_address
           begin
             Timeout::timeout(1) do
               begin
