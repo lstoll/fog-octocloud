@@ -9,6 +9,7 @@ module Fog
         def self.setup_default_attributes
           identity :id
 
+          attribute :name
           attribute :running
           attribute :public_ip_address
           attribute :cube
@@ -202,7 +203,6 @@ module Fog
         setup_default_attributes
 
         attribute :memory
-        attribute :name
         attribute :message
         attribute :expiry
         # attribute :cube
