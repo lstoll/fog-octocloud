@@ -23,9 +23,12 @@ module Fog
 
           if service.local_mode
             if service.local_list_defined_vms().include?(identifier)
-              data = { :id => identifier,
+              data = {
+                :id   => identifier,
+                :name => identifier,
                 :running => service.local_vm_running(identifier),
-                :public_ip_address => service.local_vm_ip(identifier)}
+                :public_ip_address => service.local_vm_ip(identifier)
+              }
             end
           else
             data = service.remote_lookup_vm(identifier)
