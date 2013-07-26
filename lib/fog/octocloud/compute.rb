@@ -2,6 +2,7 @@ require 'fog/octocloud'
 require 'fog/compute'
 require 'base64'
 require 'json'
+require 'pathname'
 
 require 'fog/octocloud/vmx_file'
 require 'fog/octocloud/ovftool'
