@@ -1,5 +1,8 @@
 # Getting started: the OctoCloud(TM) compute service
 
+fog-octocloud is a [Fog](https://github.com/fog/fog) driver to interface
+GitHub's OctoCloud and VMware Fusion.
+
 ## Connecting, retrieving and managing server objects
 
 Before we start, I guess it will be useful to the reader to know
@@ -18,6 +21,9 @@ octoc = Fog::Compute.new({
   :octocloud_api_key => 'API_KEY_HERE'                  # your client key here
 })
 ```
+
+If we want to use VMware Fusion instead, omitting :octocloud_url and
+:octocloud_api_key will default to the Fusion driver.
 
 ## Listing servers
 
@@ -50,7 +56,7 @@ Creating a new server (instance):
 
 ```ruby
 server = octoc.servers.create :name => 'foobar',
-                              :memory => '1024', # FIXME, I assume MB, but need 2 double check
+                              :memory => '1024', # In MB
                               :type => 'esx',
                               :cube => cube.name
 ```
