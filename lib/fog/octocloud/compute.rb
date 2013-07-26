@@ -85,8 +85,22 @@ module Fog
           @vmrunner = VMRun.new
 
           # remote
-          @octocloud_url            = options[:octocloud_url] || Fog.credentials[:octocloud_url]
-          @octocloud_api_key        = options[:octocloud_api_key] || Fog.credentials[:octocloud_api_key]
+          begin
+            @octocloud_url            = options[:octocloud_url] || Fog.credentials[:octocloud_url]
+            @octocloud_api_key        = options[:octocloud_api_key] || Fog.credentials[:octocloud_api_key]
+          rescue Fog::Errors::LoadError => e
+            # ~/.fog may be empty or missing creds, probably fine
+            # and we really want to use Fusion backend.
+            #
+            # @example
+            #     octoc = Fog::Compute.new( :provider => 'octocloud' )
+            #
+            Fog::Logger.warning(
+              "loading OctoCloud remote credentials failed, " +
+              "resorting to local Fusion driver"
+            )
+          end
+
           @connection_options       = options[:connection_options] || {}
           @persistent               = options[:persistent] || false
 
