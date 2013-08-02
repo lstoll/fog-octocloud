@@ -51,12 +51,11 @@ module Fog
 
         def convert_ova(ova, target)
           vmx = target.join('vmwarebox.vmx')
-          OVFTool.convert(ova.to_s, vmx.to_s)
-          if target.join('.vmwarevm').exist?
-            # Probably on OS X where it makes a 'bundle' vm. Move it in to original place
-            FileUtils.rm_rf(target)
-            FileUtils.mv(target.join('.vmwarevm'), target)
-          end
+          OVFTool.convert(ova.to_s, vmx)
+          # OVFTool.convert creates ~/.octocloud/boxes/<cubename>.vmwarevm
+          # We want to rename it to <cubename> removing the .vmwarevm 
+          # directory suffix
+          File.rename(target.cleanpath.to_s + ".vmwarevm", target)
         end
 
         def convert_box_ovf(path)
