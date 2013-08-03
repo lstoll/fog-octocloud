@@ -17,9 +17,18 @@ class LocalImportBoxTest < MiniTest::Unit::TestCase
     @td.rmtree
   end
 
-  def test_local_import_box
+  def test_local_import_box_from_file
     box_path = @td.join('boxes/fog-octocloud-test-ova')
     @compute.local_import_box 'fog-octocloud-test-ova', @test_ova, TEST_OVA_MD5
+    assert File.directory?(box_path)
+    assert Dir["#{box_path}/*.vmx"].size == 1
+    # OVAs may have more than one VMDK IIRC
+    assert Dir["#{box_path}/*.vmdk"].size >= 1
+  end
+
+  def test_local_import_box_from_url
+    box_path = @td.join('boxes/fog-octocloud-test-ova')
+    @compute.local_import_box 'fog-octocloud-test-ova', TEST_OVA_URL, TEST_OVA_MD5
     assert File.directory?(box_path)
     assert Dir["#{box_path}/*.vmx"].size == 1
     # OVAs may have more than one VMDK IIRC
