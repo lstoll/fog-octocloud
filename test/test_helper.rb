@@ -79,3 +79,7 @@ class RecordingRunner
     @next_return << val
   end
 end
+
+def travis_ci?
+  !ENV['TRAVIS'].nil?
+end

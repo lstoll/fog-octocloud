@@ -18,6 +18,7 @@ class LocalImportBoxTest < MiniTest::Unit::TestCase
   end
 
   def test_local_import_box_from_file
+    return if travis_ci?
     box_path = @td.join('boxes/fog-octocloud-test-ova')
     @compute.local_import_box 'fog-octocloud-test-ova', @test_ova, TEST_OVA_MD5
     assert File.directory?(box_path)
@@ -27,6 +28,7 @@ class LocalImportBoxTest < MiniTest::Unit::TestCase
   end
 
   def test_local_import_box_from_url
+    return if travis_ci?
     box_path = @td.join('boxes/fog-octocloud-test-ova')
     @compute.local_import_box 'fog-octocloud-test-ova', TEST_OVA_URL, TEST_OVA_MD5
     assert File.directory?(box_path)
