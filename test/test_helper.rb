@@ -13,7 +13,7 @@ require 'digest/md5'
 # FIXME: currently in my public Dropbox, should move it
 # somewhere else.
 #
-TEST_OVA_URL = "https://dl.dropboxusercontent.com/u/116321/tinycore-477.ova"
+TEST_OVA_URL = "http://github-enterprise.s3.amazonaws.com/ci/tinycore-477.ova"
 TEST_OVA_MD5 = "f55b468fb1b9f13fdc076e53c0e4ad9e"
 
 # Download OVA used for the tests and return the local
