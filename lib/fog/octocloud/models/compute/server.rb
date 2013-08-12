@@ -103,6 +103,33 @@ module Fog
 
           system(*command)
         end
+
+        # Extend server expiry to period
+        #
+        # @example
+        #     octoc = Fog::Compute.new( :provider => 'octocloud',
+        #                               :octocloud_api_key => 'secret',
+        #                               :octocloud_url => 'https://octocloud.dev')
+        #     server = octoc.servers.find { |s| s.name == 'my-server' }
+        #     # Extend expiry time 24 hours
+        #     server.extend_expiry '24 hours'
+        #
+        # Sample period strings accepted:
+        #
+        # 24 hours
+        # 13 minutes
+        # 3 days
+        def extend_expiry(period)
+          requires :id
+          # Ignore when using Fusion driver
+          if service.local_mode
+            false
+          else
+            service.remote_extend_vm_expiry(id, period)
+            true
+          end
+        end
+
       end
 
       class LocalServer < Server
