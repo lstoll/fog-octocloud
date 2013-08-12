@@ -33,6 +33,18 @@ module Fog
       class LocalCube < Cube
         setup_default_attributes
 
+        # Create a new local cube from a local/remote source.
+        #
+        # Requires :name and :source attributes.
+        #
+        # :source can be either a local or remote (HTTP) box/ova
+        #
+        # @example
+        #     octoc = Fog::Compute.new( :provider => 'octocloud' )
+        #     octoc.cubes.create :name => 'test-cube',
+        #                        :source => "https://foo.bar/my-remote.ova",
+        #                        :extra_opts => { :show_progress => false }
+        #
         def save
           requires :name, :source
           source_md5 = file_md5(source)
@@ -45,7 +57,7 @@ module Fog
               exist_cube.destroy
             end
           end
-          service.local_import_box(name, source, source_md5)
+          service.local_import_box(name, source, source_md5, attributes[:extra_opts])
         end
 
         def destroy
