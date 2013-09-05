@@ -77,8 +77,12 @@ module Fog
           OVFTool.convert(ova.to_s, vmx)
           # OVFTool.convert creates ~/.octocloud/boxes/<cubename>.vmwarevm
           # We want to rename it to <cubename> removing the .vmwarevm 
-          # directory suffix
-          File.rename(target.cleanpath.to_s + ".vmwarevm", target)
+          # directory suffix.
+          #
+          # Except on linux hosts with Workstation/Player
+          unless RUBY_PLATFORM =~ /linux/
+            File.rename(target.cleanpath.to_s + ".vmwarevm", target)
+          end
         end
 
         def convert_box_ovf(path)

@@ -12,7 +12,15 @@ module Fog
 
         def all()
           if service.local_mode
-            load(service.local_list_defined_vms().map {|i| {:id => i}})
+            servers = service.local_list_defined_vms().map do |i|
+              {
+                :id => i,
+                :name => i,
+                :running => service.local_vm_running(i),
+                :public_ip_address => service.local_vm_ip(i)
+              }
+            end
+            load(servers)
           else
             load(service.remote_list_vms())
           end
