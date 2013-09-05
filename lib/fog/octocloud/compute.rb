@@ -158,11 +158,10 @@ module Fog
       end
 
       class VMRun
-        VMRUN_COMMAND = "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
 
         def run(cmd, args={})
           args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
-          runcmd = "#{VMRUN_COMMAND} #{cmd} #{args[:vmx]} #{args[:opts]}"
+          runcmd = "#{vmrun_bin} #{cmd} #{args[:vmx]} #{args[:opts]}"
           retrycount = 0
           while true
             res = `#{runcmd}`
@@ -176,6 +175,23 @@ module Fog
               end
               raise "Error running vmrun command:\n#{runcmd}\nResponse: " + res
             end
+          end
+        end
+
+        private
+        def platform
+          RUBY_PLATFORM =~ /(darwin|linux)/
+          $1.to_sym
+        end
+
+        def vmrun_bin
+          case platform
+          when :linux
+            '/usr/bin/vmrun'
+          when :darwin
+            "/Applications/VMware\\ Fusion.app/Contents/Library/vmrun"
+          else
+            raise "Unsuported platform, vmrun binary not found."
           end
         end
 
