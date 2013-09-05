@@ -5,6 +5,7 @@ module Fog
       def self.load(filename)
         data = {}
         File.open(filename).each do |line|
+          next if line =~ Regexp.new(Regexp.quote("#!/usr/bin/vmware"))
           parts = line.split('=')
           data[parts[0].strip] = parts[1].strip.gsub!(/^"(.*?)"$/,'\1')
         end
