@@ -24,7 +24,7 @@ module Fog
         def dhcp_leases
           mac_ip = {}
           curLeaseIp = nil
-          Dir['/var/db/vmware/vmnet-dhcpd*.leases'].each do |f|
+          dhcp_leases_files.each do |f|
             File.open(f).each do |line|
               case line
               when /lease (.*) \{/
@@ -35,6 +35,17 @@ module Fog
             end
           end
           mac_ip
+        end
+
+        def dhcp_leases_files
+          case VMRun.platform
+          when :linux
+            Dir['/etc/vmware/vmnet*/dhcpd/dhcpd.leases']
+          when :darwin
+            Dir['/var/db/vmware/vmnet-dhcpd*.leases']
+          else
+            raise 'Unsuported platform, DHCP leases not found'
+          end
         end
 
       end

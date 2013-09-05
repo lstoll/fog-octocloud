@@ -161,7 +161,7 @@ module Fog
 
         def run(cmd, args={})
           args[:vmx] = args[:vmx].to_s if args[:vmx].kind_of? Pathname
-          runcmd = "#{vmrun_bin} #{cmd} #{args[:vmx]} #{args[:opts]}"
+          runcmd = "#{VMRun.vmrun_bin} #{cmd} #{args[:vmx]} #{args[:opts]}"
           retrycount = 0
           while true
             res = `#{runcmd}`
@@ -178,13 +178,12 @@ module Fog
           end
         end
 
-        private
-        def platform
+        def self.platform
           RUBY_PLATFORM =~ /(darwin|linux)/
           $1.to_sym
         end
 
-        def vmrun_bin
+        def self.vmrun_bin
           case platform
           when :linux
             '/usr/bin/vmrun'
