@@ -6,5 +6,7 @@ gem 'pry'
 gem 'rake'
 
 group :test do
-  gem "rspec"
+  gem 'guard'
+  gem 'guard-test'
+  gem 'terminal-notifier-guard'
 end
