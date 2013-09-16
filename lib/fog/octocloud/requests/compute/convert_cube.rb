@@ -61,7 +61,7 @@ module Fog
         def import_ova(target, src, opts = {})
           # First, dump the contents in to a tempfile.
           tmpfile = Tempfile.new(['ova-import', '.ova'])
-          if src =~ /^http/
+          if src.to_s =~ /^http/
             show_progress = opts.is_a?(Hash) ? opts[:show_progress] == true : false
             downloaded = download_file(src, show_progress)
             FileUtils.mv downloaded.path, tmpfile.path
