@@ -12,6 +12,8 @@ module Fog
 
           attribute :source
           attribute :md5
+          attribute :username
+          attribute :password
 
           # These are the 'octocloud' ones. Get some commonality!
           # identity :id
