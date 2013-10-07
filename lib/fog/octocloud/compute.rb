@@ -21,7 +21,7 @@ module Fog
       request_path 'fog/octocloud/requests/compute'
 
       ## local
-      # fusion interaction
+      # VMware Fusion/Workstation interaction
       request :local_vm_running
       request :local_start_vm
       request :local_stop_vm
@@ -40,6 +40,7 @@ module Fog
       request :local_delete_vm_files
       request :local_delete_box
       request :local_import_box
+      request :local_import_vmdk
 
       # vmx interaction
       request :local_edit_vmx
