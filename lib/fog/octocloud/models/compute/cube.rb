@@ -59,7 +59,11 @@ module Fog
               exist_cube.destroy
             end
           end
-          service.local_import_box(name, source, source_md5, attributes[:extra_opts])
+          if File.extname(source) == '.vmdk'
+            service.local_import_vmdk(name, source, source_md5, attributes)
+          else
+            service.local_import_box(name, source, source_md5, attributes[:extra_opts])
+          end
         end
 
         def destroy
