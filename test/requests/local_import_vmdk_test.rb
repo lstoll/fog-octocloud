@@ -40,10 +40,10 @@ class LocalImportVMDKTest < MiniTest::Unit::TestCase
                                :memory => 2048
     vmx = Dir["#{box_path}/*.vmx"].first
     Fog::Compute::VMXFile.with_vmx_data(vmx) do |data|
-      assert data['ide0:0.fileName'] == box_path.join('vmwarebox-disk1.vmdk').to_s
+      assert data['ide0:0.filename'] == box_path.join('vmwarebox-disk1.vmdk').to_s
       assert data['memsize'] == '2048'
       assert data['numvcpus'] == '4'
-      assert data['guestOS'] == 'ubuntu-64'
+      assert data['guestos'] == 'ubuntu-64'
     end
   end
 
