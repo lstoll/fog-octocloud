@@ -9,7 +9,7 @@ module Fog
           if ip && ip.strip =~ /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/
             ip = ip.strip
           else
-            mac_address = VMXFile.load(vmx)["ethernet0.generatedAddress"]
+            mac_address = VMXFile.load(vmx)["ethernet0.generatedaddress"]
             ip = dhcp_leases[mac_address]
           end
           ip

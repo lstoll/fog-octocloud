@@ -10,10 +10,11 @@ module Fog
 
           VMXFile.with_vmx_data(vmx) do |data|
             fields.each do |k, v|
+              key = k.to_s.downcase
               if v.nil?
-                data.delete(k.to_s)
+                data.delete(key)
               else
-                data[k.to_s] = v
+                data[key] = v
               end
             end
           end
