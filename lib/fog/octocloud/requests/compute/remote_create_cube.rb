@@ -3,11 +3,13 @@ module Fog
     class Octocloud
       class Real
 
-        def remote_create_cube(opts = {})
-          unless opts.include?('name')
-            raise ArgumentError.new("name are required options to create a Cube")
-          end
-          remote_request(:method => :post, :expects => [200], :body => opts, :path => "/api/cubes" )
+        def remote_create_cube(name, opts = {})
+          remote_request(
+            :method => :post,
+            :expects => [200],
+            :body => opts.merge(:name => name),
+            :path => "/api/cubes"
+          )
         end
 
       end

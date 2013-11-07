@@ -84,8 +84,6 @@ module Fog
 
           data = {}
 
-          attrs = {'name' => identity}
-
           # ensure if we already match a remote cube, we fetch the remote_id
           if !remote_id && existcube = service.cubes.get(name)
             remote_id = existcube.remote_id
@@ -98,15 +96,15 @@ module Fog
             # if it hasn't, submit the metadata for revision
             if source && (new_md5 = file_md5(source)) != md5
               service.remote_upload_cube(remote_id, source)
-              data = service.remote_update_cube(remote_id, attrs.merge({:md5 => new_md5}))
+              data = service.remote_update_cube(remote_id, attributes.merge({:md5 => new_md5}))
             elsif !source
-              data = service.remote_update_cube(remote_id, attrs)
+              data = service.remote_update_cube(remote_id, attributes)
             else
               # noop
             end
           else
             begin
-              data = service.remote_create_cube(attrs)
+              data = service.remote_create_cube(identity, attributes)
               md5 = file_md5(source)
               service.remote_upload_cube(data['id'], source)
               service.remote_update_cube(data['id'], {:md5 => md5})
