@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require 'fog-octocloud'
+
+octoc = Fog::Compute.new( :provider => 'octocloud' )
+
+name = ARGV[0]
+file = ARGV[1]
+
+if name.nil? or file.nil?
+  STDERR.puts "Usage: import-ova <name> <ova>"
+  exit 1
+end
+
+cube = octoc.cubes.create :name     => name,
+                          :source   => File.expand_path(file),
+                          :username => 'github',
+                          :password => 'github'

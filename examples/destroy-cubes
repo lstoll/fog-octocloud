@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+require 'fog-octocloud'
+
+octoc = Fog::Compute.new( :provider => 'octocloud' )
+
+regex = ARGV[0]
+
+if regex.nil?
+  STDERR.puts "Usage: destroy-cubes <regex>"
+  exit 1
+end
+
+cube = octoc.cubes.each do |c|
+  if c.name =~ /#{regex}/
+    print "Destroy cube #{c.name}? (y/n): "
+    answer = STDIN.readline
+    begin
+      c.destroy if answer.strip.chomp.downcase == 'y'
+      puts "Destroyed."
+    rescue => e
+      puts "ERROR: could not destroy cube #{c.name}"
+    end
+  end
+end
