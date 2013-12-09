@@ -276,6 +276,10 @@ module Fog
           true
         end
 
+        def running
+          state == "up"
+        end
+
         def destroy
           requires :id
           service.remote_delete_vm(id)
