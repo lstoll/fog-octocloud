@@ -18,7 +18,7 @@ module Fog
             end
           end
 
-          remote_request(:method => :post, :expects => [200], :body => opts, :path => "/api/virtual-machines" )
+          remote_request(:method => :post, :expects => [201], :body => opts, :path => "/api/virtual-machines" )
         end
 
       end
