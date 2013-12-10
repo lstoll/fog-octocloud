@@ -151,6 +151,8 @@ module Fog
 
           if response.body.empty?
             true
+          elsif response.status == 202 || response.status == 204
+            true
           else
             Fog::JSON.decode(response.body)
           end
