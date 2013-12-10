@@ -244,6 +244,11 @@ module Fog
         attribute :created_at
         attribute :meta
 
+        def username
+          try_meta = meta || {}
+          attributes[:username] || try_meta['username'] || 'root'
+        end
+
         def running?
           running
         end
