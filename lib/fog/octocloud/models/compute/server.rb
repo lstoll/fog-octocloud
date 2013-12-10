@@ -241,6 +241,7 @@ module Fog
         attribute :state
         attribute :ip
         attribute :cpus
+        attribute :created_at
 
         def running?
           running
