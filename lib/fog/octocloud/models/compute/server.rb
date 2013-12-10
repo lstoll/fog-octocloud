@@ -241,6 +241,13 @@ module Fog
         attribute :state
         attribute :ip
         attribute :cpus
+        attribute :created_at
+        attribute :meta
+
+        def username
+          try_meta = meta || {}
+          attributes[:username] || try_meta['username'] || 'root'
+        end
 
         def running?
           running
@@ -274,6 +281,10 @@ module Fog
 
           merge_attributes(data)
           true
+        end
+
+        def running
+          state == "up"
         end
 
         def destroy

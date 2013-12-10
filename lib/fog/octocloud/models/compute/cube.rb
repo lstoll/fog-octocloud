@@ -78,6 +78,16 @@ module Fog
 
         attribute :remote_id, :aliases => 'id'
         attribute :revision
+        attribute :md5, :aliases => 'checksum'
+        attribute :meta
+
+        def username
+          meta['username']
+        end
+
+        def password
+          meta['password']
+        end
 
         def save
           requires :name, :source
