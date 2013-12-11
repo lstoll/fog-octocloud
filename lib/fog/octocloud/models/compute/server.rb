@@ -76,34 +76,6 @@ module Fog
           false
         end
 
-        def run(script, run_dir = Pathname.new('/tmp'), &block)
-          script = Pathname(script)
-          path   = run_dir.join(script.basename)
-
-          path_string = path.to_s
-
-          scp(script.to_s, path_string)
-          ssh("chmod +x #{path_string}")
-          ssh(path_string, &block)
-        end
-
-        def fix_key_permissions!
-          private_key_file.chmod(0600)
-        end
-
-        def shell
-          fix_key_permissions!
-
-          command = %w[ssh]
-          command << '-i' << private_key_file.realpath.to_s
-          command << '-o' << 'UserKnownHostsFile=/dev/null'
-          command << '-o' << 'StrictHostKeyChecking=no'
-          command << '-p' << '22'
-          command << "#{username}@#{public_ip_address}"
-
-          system(*command)
-        end
-
         # Extend server expiry to period
         #
         # @example
