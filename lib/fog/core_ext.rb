@@ -1,3 +1,5 @@
+require 'fog/compute'
+
 module Fog
   module Compute
     class << self
