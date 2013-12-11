@@ -15,7 +15,7 @@ module Fog
       end
     end
 
-    class Server
+    class Server < Fog::Model
       def run(script, run_dir = Pathname.new('/tmp'), &block)
         script = Pathname(script)
         path   = run_dir.join(script.basename)
