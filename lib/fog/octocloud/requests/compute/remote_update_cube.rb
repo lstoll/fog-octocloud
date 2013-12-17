@@ -1,6 +1,12 @@
 module Fog
   module Compute
     class Octocloud
+      class Mock
+        def remote_update_cube(id, opts = {})
+          true
+        end
+      end
+
       class Real
 
         def remote_update_cube(id, opts = {})
