@@ -3,6 +3,12 @@ require 'fog/octocloud/requests/compute/convert_cube'
 module Fog
   module Compute
     class Octocloud
+      class Mock
+        def remote_upload_cube(id, file)
+          true
+        end
+      end
+
       class Real
 
         def remote_upload_cube(id, file)
