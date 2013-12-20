@@ -4,6 +4,7 @@ module Fog
       class Mock
         def remote_create_vm(opts)
           newid = rand(99999)
+          opts.merge!({:ip => '127.0.0.1', :state => 'up'})
           data[:servers][newid] = opts
           opts.merge({:id => newid})
         end
