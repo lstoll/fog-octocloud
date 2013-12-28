@@ -4,7 +4,7 @@ module Fog
 
       class Mock
         def remote_extend_vm_expiry(id, period)
-          Fog::Mock.not_implemented
+          data[:servers][id]
         end
       end
 

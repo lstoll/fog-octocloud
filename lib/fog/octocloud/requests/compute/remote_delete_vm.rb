@@ -1,6 +1,12 @@
 module Fog
   module Compute
     class Octocloud
+      class Mock
+        def remote_delete_vm(vmid)
+          data[:servers].delete(vmid)
+        end
+      end
+
       class Real
 
         def remote_delete_vm(vmid)

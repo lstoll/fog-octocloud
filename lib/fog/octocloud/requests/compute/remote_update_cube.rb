@@ -3,7 +3,7 @@ module Fog
     class Octocloud
       class Mock
         def remote_update_cube(id, opts = {})
-          true
+          data[:cubes][id].merge!(opts) if data[:cubes][id]
         end
       end
 
