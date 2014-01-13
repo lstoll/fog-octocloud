@@ -102,6 +102,17 @@ module Fog
           end
         end
 
+        def export(cube_name)
+          requires :id
+
+          if service.local_mode
+            false
+          else
+            service.remote_export_vm(id, cube_name)
+            true
+          end
+        end
+
       end
 
       class LocalServer < Server
