@@ -114,10 +114,10 @@ module Fog
             end
           else
             begin
-              data = service.remote_create_cube(identity, attributes)
+              data = service.remote_create_cube(identity, attributes.reject {|k,_| k == :source })
               md5 = file_md5(source)
               service.remote_upload_cube(data['id'], source)
-              service.remote_update_cube(data['id'], {:md5 => md5})
+              service.remote_update_cube(data['id'], {:meta => {:md5 => md5}})
             rescue Exception => e
               # service.remote_delete_cube(data['id'])
               raise e

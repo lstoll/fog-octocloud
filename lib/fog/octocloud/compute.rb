@@ -144,7 +144,7 @@ module Fog
           options = {
             :expects => 200,
             :query => "",
-            :headers => headers,
+            :headers => headers.merge(options.delete(:headers) || {}),
           }.merge(options)
 
           response = @connection.request(options)
