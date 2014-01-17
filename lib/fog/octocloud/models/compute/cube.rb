@@ -99,10 +99,12 @@ module Fog
             remote_id = existcube.remote_id
             # ensure we have the right md5 while we're at it
             md5 = existcube.md5
+          else
+            remote_id = self.remote_id
           end
 
 
-          if self.remote_id  # we're updating
+          if remote_id  # we're updating
             # check if the source has been specified. If it has, we only only upload if the md5 differs
             # if it hasn't, submit the metadata for revision
             if source && (new_md5 = file_md5(source)) != md5
