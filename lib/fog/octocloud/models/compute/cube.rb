@@ -106,9 +106,9 @@ module Fog
             # if it hasn't, submit the metadata for revision
             if source && (new_md5 = file_md5(source)) != md5
               service.remote_upload_cube(remote_id, source)
-              data = service.remote_update_cube(remote_id, attributes.merge({:md5 => new_md5}))
+              data = service.remote_update_cube(remote_id, (meta || {}).merge(:checksum => new_md5))
             elsif !source
-              data = service.remote_update_cube(remote_id, attributes)
+              data = service.remote_update_cube(remote_id, :meta => meta)
             else
               # noop
             end
@@ -117,7 +117,7 @@ module Fog
               data = service.remote_create_cube(identity, attributes.reject {|k,_| k == :source })
               md5 = file_md5(source)
               service.remote_upload_cube(data['id'], source)
-              service.remote_update_cube(data['id'], {:meta => {:md5 => md5}})
+              service.remote_update_cube(data['id'], (meta || {}).merge(:checksum => md5))
             rescue Exception => e
               # service.remote_delete_cube(data['id'])
               raise e
