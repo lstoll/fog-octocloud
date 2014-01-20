@@ -99,25 +99,28 @@ module Fog
             remote_id = existcube.remote_id
             # ensure we have the right md5 while we're at it
             md5 = existcube.md5
+          else
+            remote_id = self.remote_id
           end
+
 
           if remote_id  # we're updating
             # check if the source has been specified. If it has, we only only upload if the md5 differs
             # if it hasn't, submit the metadata for revision
             if source && (new_md5 = file_md5(source)) != md5
               service.remote_upload_cube(remote_id, source)
-              data = service.remote_update_cube(remote_id, attributes.merge({:md5 => new_md5}))
+              data = service.remote_update_cube(remote_id, (meta || {}).merge(:checksum => new_md5))
             elsif !source
-              data = service.remote_update_cube(remote_id, attributes)
+              data = service.remote_update_cube(remote_id, :meta => meta)
             else
               # noop
             end
           else
             begin
-              data = service.remote_create_cube(identity, attributes)
+              data = service.remote_create_cube(identity, attributes.reject {|k,_| k == :source })
               md5 = file_md5(source)
               service.remote_upload_cube(data['id'], source)
-              service.remote_update_cube(data['id'], {:md5 => md5})
+              service.remote_update_cube(data['id'], (meta || {}).merge(:checksum => md5))
             rescue Exception => e
               # service.remote_delete_cube(data['id'])
               raise e
