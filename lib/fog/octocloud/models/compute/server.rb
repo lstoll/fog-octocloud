@@ -14,6 +14,7 @@ module Fog
           attribute :public_ip_address
           attribute :cube
           attribute :private_key_file
+          attribute :storage
         end
 
 
