@@ -50,7 +50,7 @@ module Fog
 
         def ready?
           reload
-          running && ip
+          running && !ip.nil?
         end
 
         def running?
