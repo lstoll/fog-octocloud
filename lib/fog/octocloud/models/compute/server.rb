@@ -216,6 +216,7 @@ module Fog
         attribute :cpus
         attribute :created_at
         attribute :meta
+        attribute :public_ip
 
         def username
           try_meta = meta || {}
@@ -231,7 +232,8 @@ module Fog
         end
 
         def public_ip_address
-          ip
+          # Fall back to normal IP if no explicit public IP
+          public_ip || ip
         end
 
         def start
