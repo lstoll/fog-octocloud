@@ -1,4 +1,5 @@
 require 'fog/compute/models/server'
+require 'net/ssh'
 
 module Fog
   module Compute
@@ -10,7 +11,6 @@ module Fog
           identity :id
 
           attribute :name
-          attribute :running
           attribute :public_ip_address
           attribute :private_ip_address
           attribute :cube
@@ -21,6 +21,11 @@ module Fog
         def ssh_ip_address
           # Always use the internal address
           private_ip_address
+        end
+
+        def ready?
+          reload
+          running
         end
 
         def listening_for_ssh?
@@ -45,15 +50,6 @@ module Fog
           end
 
           return false
-        end
-
-        def ready?
-          reload
-          running && ip
-        end
-
-        def running?
-          running
         end
 
         def private_key
@@ -104,6 +100,7 @@ module Fog
         setup_default_attributes
 
         attribute :network_type
+        attribute :running
 
         def enable_shared_folders
           service.local_enable_shared_folders(identity)
@@ -205,7 +202,6 @@ module Fog
         attribute :type, :aliases => :hypervisor_type
         attribute :hypervisor_host
         attribute :template
-        # attribute :running
         attribute :state
         attribute :private_ip_address, :aliases => 'ip'
         attribute :cpus
@@ -218,12 +214,8 @@ module Fog
           attributes[:username] || try_meta['username'] || 'root'
         end
 
-        def running?
-          running
-        end
-
         def ready?
-          (state == "up") && ip
+          state == "up"
         end
 
         def start
@@ -246,10 +238,6 @@ module Fog
 
           merge_attributes(data)
           true
-        end
-
-        def running
-          state == "up"
         end
 
         def destroy
