@@ -12,17 +12,16 @@ module Fog
           attribute :name
           attribute :running
           attribute :public_ip_address
+          attribute :private_ip_address
           attribute :cube
           attribute :private_key_file
           attribute :storage
         end
 
-
-        # def ssh(commands, options={}, &blk)
-        #   require 'net/ssh'
-        #   options[:password] = password
-        #   super(commands, options)
-        # end
+        def ssh_ip_address
+          # Always use the internal address
+          private_ip_address
+        end
 
         def listening_for_ssh?
           listening_on?(22)
@@ -30,12 +29,12 @@ module Fog
 
         def listening_on?(port)
           # Make sure we are working with the latest data
-          reload unless public_ip_address
-          return false unless public_ip_address
+          reload unless ssh_ip_address
+          return false unless ssh_ip_address
           begin
             Timeout::timeout(1) do
               begin
-                s = TCPSocket.new(public_ip_address, port)
+                s = TCPSocket.new(ssh_ip_address, port)
                 s.close
                 return true
               rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
@@ -57,10 +56,6 @@ module Fog
           running
         end
 
-        def ip
-          public_ip_address
-        end
-
         def private_key
           if private_key_file
             file = Pathname(private_key_file)
@@ -72,7 +67,7 @@ module Fog
 
 
         def sshable?
-          ready? && !public_ip_address.nil? && !!Timeout::timeout(30) { ssh 'pwd' }
+          ready? && !ssh_ip_address.nil? && !!Timeout::timeout(30) { ssh 'pwd' }
         rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
           false
         end
@@ -212,11 +207,11 @@ module Fog
         attribute :template
         # attribute :running
         attribute :state
-        attribute :ip
+        attribute :private_ip_address, :aliases => 'ip'
         attribute :cpus
         attribute :created_at
         attribute :meta
-        attribute :public_ip
+        attribute :public_ip_address, :aliases => 'public_ip'
 
         def username
           try_meta = meta || {}
@@ -229,11 +224,6 @@ module Fog
 
         def ready?
           (state == "up") && ip
-        end
-
-        def public_ip_address
-          # Fall back to normal IP if no explicit public IP
-          public_ip || ip
         end
 
         def start
