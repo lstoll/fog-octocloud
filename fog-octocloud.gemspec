@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{fog-octocloud}
-  s.version = "0.5.0"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lincoln Stoll"]
@@ -20,8 +20,10 @@ Gem::Specification.new do |s|
 
   s.test_files = Dir.glob("spec/**/*")
 
-  s.add_runtime_dependency "fog",  ">= 1.9"
-  s.add_runtime_dependency "json", "~> 1"
+  # One day we can live this dream
+  # s.add_runtime_dependency "fog-core",              "~> 1.21.0"
+  s.add_runtime_dependency "fog",              "~> 1.20.0"
+  s.add_runtime_dependency "json",                  "~> 1"
   s.add_runtime_dependency "net-ssh",               ">= 2.0.19"
   s.add_runtime_dependency "net-scp",               ">= 1.0.2"
   s.add_runtime_dependency "archive-tar-minitar",   "= 0.5.2"

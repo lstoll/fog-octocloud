@@ -49,11 +49,10 @@ module Fog
         command << '-o' << 'UserKnownHostsFile=/dev/null'
         command << '-o' << 'StrictHostKeyChecking=no'
         command << '-p' << '22'
-        command << "#{username}@#{public_ip_address}"
+        command << "#{username}@#{ssh_ip_address}"
 
         system(*command)
       end
     end
   end
 end
-
