@@ -23,6 +23,10 @@ module Fog
           private_ip_address
         end
 
+        def public_or_private_ip_address
+          public_ip_address || private_ip_address
+        end
+
         def ready?
           reload
           running
