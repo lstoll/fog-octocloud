@@ -17,7 +17,7 @@ module Fog
                 :id => i,
                 :name => i,
                 :running => service.local_vm_running(i),
-                :public_ip_address => service.local_vm_ip(i)
+                :private_ip_address => service.local_vm_ip(i)
               }
             end
             load(servers)
@@ -35,7 +35,7 @@ module Fog
                 :id   => identifier,
                 :name => identifier,
                 :running => service.local_vm_running(identifier),
-                :public_ip_address => service.local_vm_ip(identifier)
+                :private_ip_address => service.local_vm_ip(identifier)
               }
             end
           else

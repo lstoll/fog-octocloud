@@ -5,7 +5,8 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'octocloud/compute', 'Compute')
+    # service(:compute, 'octocloud/compute', 'Compute')
+    service(:compute, 'Compute')
 
   end
 end
