@@ -1,6 +1,7 @@
 require 'fog/octocloud'
 require 'fog/compute'
 require 'fog/core/connection'
+require 'fog/json'
 require 'base64'
 require 'json'
 require 'pathname'
