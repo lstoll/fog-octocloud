@@ -1,5 +1,6 @@
 require 'fog/octocloud'
 require 'fog/compute'
+require 'fog/core/connection'
 require 'base64'
 require 'json'
 require 'pathname'
@@ -112,7 +113,7 @@ module Fog
 
           if @octocloud_url || @octocloud_api_key
             @local_mode = false
-            @connection = Fog::Connection.new(@octocloud_url, @persistent, @connection_options)
+            @connection = Fog::Core::Connection.new(@octocloud_url, @persistent, @connection_options)
           else
             @local_mode = true
             @local_dir.mkdir unless @local_dir.exist?
