@@ -57,6 +57,7 @@ module Fog
       request :remote_delete_cube
       request :remote_upload_cube
       request :remote_extend_vm_expiry
+      request :remote_export_vm
 
 
       class Mock
